@@ -1,2 +1,2 @@
-# nuxt-ionic-supabase-starter
-Starter project for Nuxt, Ionic, Supabase
+# nuxt-hybrid-app
+Nuxt starter project for Ionic, Supabase, Capacitor.
