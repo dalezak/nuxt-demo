@@ -7,6 +7,16 @@ export default defineNuxtConfig({
     '~/assets/css/ionic.css'
   ],
   modules: [
+    '@pinia/nuxt',
     '@nuxtjs/ionic'
-  ]
+  ],
+  runtimeConfig: {
+    public: {
+    },
+  },
+  ionic: {
+    integrations: {
+      icons: true,
+    },
+  },
 })

@@ -14,6 +14,12 @@
   </ion-page>
 </template>
 
-<script setup></script>
+<script setup>
+ definePageMeta({
+  middleware: [
+    'auth'
+  ]
+})
+</script>
 
 <style scoped></style>
