@@ -8,7 +8,8 @@ export default defineNuxtConfig({
   ],
   modules: [
     '@pinia/nuxt',
-    '@nuxtjs/ionic'
+    '@nuxtjs/ionic',
+    '@nuxtjs/supabase'
   ],
   runtimeConfig: {
     public: {
@@ -19,4 +20,8 @@ export default defineNuxtConfig({
       icons: true,
     },
   },
+  supabase: {
+    url: process.env.SUPABASE_URL,
+    key: process.env.SUPABASE_KEY
+  }
 })

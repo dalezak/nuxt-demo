@@ -4,10 +4,10 @@ export default defineNuxtRouteMiddleware(async(to, _from) => {
   const usersStore = useUsersStore();
   const user = await usersStore.getUser || await usersStore.userRestore();
   console.log("user", user);
-  if (user == false) {
-    return navigateTo('/login');
+  if (user && user.email) {
+    return;
   }
   else {
-    return;
+    return navigateTo('/login');
   }
 });

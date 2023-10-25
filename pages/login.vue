@@ -121,13 +121,13 @@ export default defineComponent({
           });
           console.log("userLogin", user);
           if (user) {
-            this.showToast(`Welcome back ${user || "friend"}`);
+            this.showToast(`Welcome back ${user.email || "friend"}`);
             this.showHomePage();
           }
         }
         catch (error) {
           console.error("userLogin", error);
-          this.showAlert("Problem Logging In", this.errorMessage(error));
+          this.showAlert("Problem Logging In", error);
         }
         finally {
           this.hideLoading();
@@ -157,25 +157,18 @@ export default defineComponent({
           });
           console.log("userSignup", user);
           if (user) {
-            this.showToast(`Welcome ${user || "friend"}`);
+            this.showToast(`Welcome ${user.email || "friend"}`);
             this.showHomePage();
           }
         }
         catch (error) {
           console.error("userSignup", error);
-          this.showAlert("Problem Signing Up", this.errorMessage(error));
+          this.showAlert("Problem Signing Up", error);
         }
         finally {
           this.hideLoading();
         }
       }
-    },
-    errorMessage(error) {
-      if (error.code) {
-        let message = error.code.replace("auth/", "").replaceAll("-", " ");
-        return message.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
-      }
-      return  "Unknown error has occured"
     }
   }
 });
