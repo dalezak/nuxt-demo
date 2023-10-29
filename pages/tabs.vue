@@ -34,6 +34,11 @@ export default defineComponent({
   mixins: [
     routes
   ],
+  setup() {
+    definePageMeta({
+      alias: ['/'],
+    })
+  },
   computed: {
     ...mapState(useUsersStore, ['user', 'getUser', 'hasUser']),
   },
