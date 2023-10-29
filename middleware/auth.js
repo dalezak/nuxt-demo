@@ -2,13 +2,21 @@ import { useUsersStore } from "@/stores/users";
 export default defineNuxtRouteMiddleware(async(to, _from) => {
   const usersStore = useUsersStore();
   const user = await usersStore.getUser || await usersStore.userRestore();
-  if (user && user.email) {
-    if (to.path == '/login') {
-      return navigateTo('/');
-    }
+  if (to.path == '/') {
     return;
   }
-  else if (to.path == '/') {
+  else if (to.path == '/login') {
+    if (user && user.email) {
+      return navigateTo('/');
+    }
+    else {
+      return
+    }
+  }
+  else if (to.path == '/logout') {
+    return;
+  }
+  else if (user && user.email) {
     return;
   }
   else {

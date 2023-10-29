@@ -23,6 +23,13 @@ export default defineComponent({
   mixins: [
     routes
   ],
+  setup() {
+    definePageMeta({
+      middleware: [
+        'auth'
+      ]
+    })
+  },
   async mounted() {
     await this.userLogout();
     await this.showUserLogin();
