@@ -22,13 +22,6 @@ export default defineComponent({
   name: 'ProfilePage',
   mixins: [
     routes
-  ],
-  setup() {
-    definePageMeta({
-      middleware: [
-        'auth'
-      ]
-    })
-  }
+  ]
 })
 </script>

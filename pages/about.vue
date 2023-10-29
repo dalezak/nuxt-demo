@@ -20,14 +20,7 @@ export default defineComponent({
   name: 'AboutPage',
   mixins: [
     routes
-  ],
-  setup() {
-    definePageMeta({
-      middleware: [
-        'auth'
-      ]
-    })
-  }
+  ]
 })
 </script>
 

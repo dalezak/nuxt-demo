@@ -34,13 +34,6 @@ export default defineComponent({
   mixins: [
     routes
   ],
-  setup() {
-    definePageMeta({
-      middleware: [
-        'auth'
-      ]
-    })
-  },
   computed: {
     ...mapState(useUsersStore, ['user', 'getUser', 'hasUser']),
   },

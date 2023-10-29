@@ -66,13 +66,6 @@ export default defineComponent({
     forms,
     routes
   ],
-  setup() {
-    definePageMeta({
-      middleware: [
-        'auth'
-      ]
-    })
-  },
   data() {
     return {
       form: "login",

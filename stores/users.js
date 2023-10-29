@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia';
 
-const Supabase = useSupabaseClient();
-
 export const useUsersStore = defineStore("users", {
   persist: {
     storage: persistedState.localStorage,
@@ -14,7 +12,7 @@ export const useUsersStore = defineStore("users", {
   },
   getters: {
     hasUser(state) {
-      return state.user && state.user.email;
+      return state.user != null && state.user.email != null;
     },
     getUser(state) {
       return state.user;
@@ -29,6 +27,7 @@ export const useUsersStore = defineStore("users", {
       return Promise.resolve();
     },
     async userLogin({email, password}) {
+      const Supabase = useSupabaseClient();
       const { data, error } = await Supabase.auth.signInWithPassword({ 
         email: email, 
         password: password 
@@ -49,6 +48,7 @@ export const useUsersStore = defineStore("users", {
       }
     },
     async userSignup({email, password, name}) {
+      const Supabase = useSupabaseClient();
       const { data, error } = await Supabase.auth.signUp({ 
         email: email, 
         password: password 
