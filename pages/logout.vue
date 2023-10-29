@@ -12,20 +12,16 @@
 </template>
 
 <script lang="js">
-import {
-  defineComponent
-} from "vue";
-
 import { mapActions } from 'pinia';
 
 import { useUsersStore } from '@/stores/users';
 
-import helpers from "@/mixins/helpers";
+import routes from "@/mixins/routes";
 
 export default defineComponent({
   name: "UserLogout",
   mixins: [
-    helpers
+    routes
   ],
   async mounted() {
     await this.userLogout();

@@ -51,19 +51,28 @@
 </template>
 
 <script lang="js">
-import { defineComponent } from 'vue';
-
 import { mapState, mapActions } from 'pinia';
 
 import { useUsersStore } from '@/stores/users';
 
-import helpers from "@/mixins/helpers";
+import ionic from "@/mixins/ionic";
+import forms from "@/mixins/forms";
+import routes from "@/mixins/routes";
 
 export default defineComponent({
   name: 'UserLogin',
   mixins: [
-    helpers
+    ionic,
+    forms,
+    routes
   ],
+  setup() {
+    definePageMeta({
+      middleware: [
+        'auth'
+      ]
+    })
+  },
   data() {
     return {
       form: "login",

@@ -9,7 +9,8 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/ionic',
-    '@nuxtjs/supabase'
+    '@nuxtjs/supabase',
+    '@pinia-plugin-persistedstate/nuxt'
   ],
   runtimeConfig: {
     public: {

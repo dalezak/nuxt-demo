@@ -9,16 +9,25 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
-        
+      <ion-button router-link="/" router-direction="back">Home</ion-button>
     </ion-content>
   </ion-page>
 </template>
 
-<script setup>
- definePageMeta({
-  middleware: [
-    'auth'
-  ]
+<script>
+import routes from "@/mixins/routes";
+export default defineComponent({
+  name: 'AboutPage',
+  mixins: [
+    routes
+  ],
+  setup() {
+    definePageMeta({
+      middleware: [
+        'auth'
+      ]
+    })
+  }
 })
 </script>
 
