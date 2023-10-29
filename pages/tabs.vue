@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header v-if="user == null">
+    <ion-header v-if="hasUser == false">
       <ion-toolbar>
         <ion-title>Nuxt</ion-title>
         <ion-buttons slot="primary">
@@ -9,9 +9,13 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-tabs v-if="user">
+      <ion-tabs v-if="hasUser">
         <ion-router-outlet></ion-router-outlet>
         <ion-tab-bar slot="bottom">
+          <ion-tab-button tab="home" href="/home">
+            <ion-icon :icon="ioniconsHome" />
+            <ion-label>Home</ion-label>
+          </ion-tab-button>
           <ion-tab-button tab="profile" href="/profile">
             <ion-icon :icon="ioniconsPerson" />
             <ion-label>Profile</ion-label>
@@ -30,7 +34,7 @@ import routes from "@/mixins/routes";
 import { mapState } from 'pinia';
 import { useUsersStore } from '@/stores/users';
 export default defineComponent({
-  name: 'HomePage',
+  name: 'TabsPage',
   mixins: [
     routes
   ],
@@ -40,11 +44,11 @@ export default defineComponent({
     })
   },
   computed: {
-    ...mapState(useUsersStore, ['user', 'getUser', 'hasUser']),
+    ...mapState(useUsersStore, ['hasUser']),
   },
   async mounted() {
     if (this.hasUser) {
-      this.showProfilePage();
+      this.showHomePage();
     }
   },
   methods: {

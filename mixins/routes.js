@@ -12,8 +12,11 @@ export default {
     goBack() {
       this.$router.go(-1);
     },
-    showHomePage() {
+    showIndexPage() {
       this.showRootPage("/");
+    },
+    showHomePage() {
+      this.showRootPage("/home");
     },
     showProfilePage() {
       this.showRootPage("/profile");
