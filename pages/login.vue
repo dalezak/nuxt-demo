@@ -39,8 +39,8 @@
             </ion-card>
             <ion-card class="ion-margin">
               <ion-card-content>
-                <ion-button fill="clear" @click="showLogin" v-if="form=='signup'">Already have an account?</ion-button>
-                <ion-button fill="clear" @click="showSignup" v-if="form=='login'">Don't have an account yet?</ion-button>
+                <ion-button fill="clear" @click="showLoginForm" v-if="form=='signup'">Already have an account?</ion-button>
+                <ion-button fill="clear" @click="showSignupForm" v-if="form=='login'">Don't have an account yet?</ion-button>
               </ion-card-content>
             </ion-card>
           </ion-col>
@@ -51,7 +51,7 @@
 </template>
 
 <script lang="js">
-import { mapState, mapActions } from 'pinia';
+import { mapActions } from 'pinia';
 
 import { useUsersStore } from '@/stores/users';
 
@@ -74,17 +74,12 @@ export default defineComponent({
       password: ""
     }
   },
-  computed: {
-    ...mapState(useUsersStore, ['user', 'getUser']),
-  },
-  mounted() {
-  },
   methods: {
     ...mapActions(useUsersStore, ['userLogin', 'userSignup']),
-    showLogin() {
+    showLoginForm() {
       this.form = "login"
     },
-    showSignup() {
+    showSignupForm() {
       this.form = "signup"
     },
     onEnter() {

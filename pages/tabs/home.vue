@@ -16,6 +16,31 @@ export default defineComponent({
   name: 'HomePage',
   mixins: [
     routes
-  ]
+  ],
+  async mounted() {
+    // console.log("HomePage", this.$route.query);
+    await this.serverFetch();
+    await this.serverSubmit();
+  },
+  methods: {
+    async serverFetch() {
+      const { data } = await useFetch('/api/fetch', {
+        method: 'get',
+        params: {
+          test: 123
+        }
+      })
+      console.log("serverFetch", data.value);
+    },
+    async serverSubmit() {
+      const { data } = await useFetch('/api/submit', {
+        method: 'post',
+        body: { 
+          test: 123 
+        }
+      })
+      console.log("serverSubmit", data.value);
+    }
+  }
 })
 </script>

@@ -1,8 +1,8 @@
 import { useUsersStore } from "@/stores/users";
-export default defineNuxtRouteMiddleware(async(to, _from) => {
+export default defineNuxtRouteMiddleware(async(to, from) => {
   const usersStore = useUsersStore();
-  const user = await usersStore.getUser || await usersStore.userRestore();
-  console.log(`auth ${to.path}`, user);
+  const user = await usersStore.userRestore();
+  console.log(`auth ${from.path} >> ${to.path}`, user);
   if (to.path == '/') {
     return;
   }

@@ -1,9 +1,11 @@
 export default {
   methods: {
     showRootPage(path) {
+      console.log("showRootPage", path)
       this.$router.replace({ path: path }, () => { });
     },
     showPage(path) {
+      console.log("showPage", path)
       this.$router.push({ path: path }, () => { });
     },
     hidePage() {

@@ -50,9 +50,6 @@ export default defineComponent({
     if (this.hasUser) {
       this.showHomePage();
     }
-  },
-  methods: {
-
   }
 })
 </script>
