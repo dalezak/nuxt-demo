@@ -21,6 +21,7 @@
   "dependencies": {
     "@pinia/nuxt": "0.4.4",
     "ionicons": "^7.2.1",
-    "pinia": "^2.1.7"
+    "pinia": "^2.1.7",
+    "vue-next-masonry": "^1.1.3"
   }
 }

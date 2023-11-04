@@ -5,7 +5,8 @@ export default defineNuxtConfig({
     enabled: true 
   },
   css: [
-    '~/assets/css/ionic.css'
+    '~/assets/css/ionic.css',
+    '~/assets/css/transition.css'
   ],
   modules: [
     '@pinia/nuxt',
