@@ -18,7 +18,7 @@ import { useUsersStore } from '@/stores/users';
 
 import routes from "@/mixins/routes";
 
-export default defineComponent({
+export default {
   name: "UserLogout",
   mixins: [
     routes
@@ -30,7 +30,7 @@ export default defineComponent({
   methods: {
   ...mapActions(useUsersStore, ['userLogout']),
   }
-});
+}
 </script>
 
 <style scoped lang="scss">

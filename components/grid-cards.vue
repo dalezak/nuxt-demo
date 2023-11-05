@@ -4,7 +4,7 @@
       <slot></slot>
     </masonry>
     <transition name="fade" mode="out-in">
-      <ion-button :disabled="loading" color="primary" expand="block" fill="outline" class="ion-margin" @click="onMore" v-if="limit > 0 && count%limit==0">
+      <ion-button :disabled="loading" color="primary" expand="block" fill="outline" class="ion-margin" @click="onMore" v-if="limit > 0 && count==limit">
         <span v-if="loading">Loading...</span>
         <span v-else>Load More</span>
       </ion-button>

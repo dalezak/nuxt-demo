@@ -33,7 +33,7 @@
 import routes from "@/mixins/routes";
 import { mapState } from 'pinia';
 import { useUsersStore } from '@/stores/users';
-export default defineComponent({
+export default {
   name: 'TabsPage',
   mixins: [
     routes
@@ -51,5 +51,5 @@ export default defineComponent({
       this.showHomePage();
     }
   }
-})
+}
 </script>

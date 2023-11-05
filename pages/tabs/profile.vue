@@ -18,10 +18,10 @@
 
 <script>
 import routes from "@/mixins/routes";
-export default defineComponent({
+export default {
   name: 'ProfilePage',
   mixins: [
     routes
   ]
-})
+}
 </script>

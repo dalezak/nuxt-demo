@@ -7,16 +7,7 @@
     </ion-header>
     <ion-content>
       <grid-cards :loading="loading" :limit="limit" :count="count" :search="search" label="items" @more="loadItems(offset+limit)">
-        <template :key="item.id" v-for="item of items">
-          <transition appear name="fade" mode="out-in">
-            <ion-card>
-              <ion-card-header>
-                <ion-card-title>{{ item.name }}</ion-card-title>
-                <ion-card-subtitle>{{ item.description }}</ion-card-subtitle>
-              </ion-card-header>
-            </ion-card>
-          </transition>
-        </template>
+        <item-card :item="item" :key="item.id" v-for="item of items"></item-card>
       </grid-cards> 
     </ion-content>
   </ion-page>
@@ -24,7 +15,7 @@
 
 <script>
 import routes from "@/mixins/routes";
-export default defineComponent({
+export default {
   name: 'HomePage',
   mixins: [
     routes
@@ -91,5 +82,5 @@ export default defineComponent({
       console.log("serverSubmit", data.value);
     }
   }
-})
+}
 </script>

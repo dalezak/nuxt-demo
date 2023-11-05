@@ -16,12 +16,12 @@
 
 <script>
 import routes from "@/mixins/routes";
-export default defineComponent({
+export default {
   name: 'AboutPage',
   mixins: [
     routes
   ]
-})
+}
 </script>
 
 <style scoped></style>

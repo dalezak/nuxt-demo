@@ -5,8 +5,8 @@ export default defineNuxtConfig({
     enabled: true 
   },
   css: [
-    '~/assets/css/ionic.css',
-    '~/assets/css/transition.css'
+    '@/assets/css/theme.css',
+    '@/assets/css/transition.css'
   ],
   modules: [
     '@pinia/nuxt',
@@ -20,8 +20,16 @@ export default defineNuxtConfig({
   },
   ionic: {
     integrations: {
+      meta: true,
+      pwa: true,
       icons: true,
+      router: true
     },
+    css: {
+      core: true,
+      basic: true,
+      utilities: true      
+    }
   },
   supabase: {
     url: process.env.SUPABASE_URL,

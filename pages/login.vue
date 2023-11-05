@@ -59,7 +59,7 @@ import ionic from "@/mixins/ionic";
 import forms from "@/mixins/forms";
 import routes from "@/mixins/routes";
 
-export default defineComponent({
+export default {
   name: 'UserLogin',
   mixins: [
     ionic,
@@ -168,7 +168,7 @@ export default defineComponent({
       }
     }
   }
-});
+}
 </script>
 
 <style scoped>
