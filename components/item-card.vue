@@ -1,11 +1,13 @@
 <template>
   <transition appear name="fade" mode="out-in">
-    <ion-card class="ion-margin-vertical" v-if="item">
-      <ion-card-header>
-        <ion-card-title>{{ item.name }}</ion-card-title>
-        <ion-card-subtitle>{{ item.description }}</ion-card-subtitle>
-      </ion-card-header>
-    </ion-card>
+    <div class="ion-padding-top" v-if="item">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ item.name }}</ion-card-title>
+          <ion-card-subtitle>{{ item.description }}</ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>
+    </div>
   </transition>
 </template>
 
