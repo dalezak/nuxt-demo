@@ -15,6 +15,7 @@
 
 <script>
 import routes from "@/mixins/routes";
+
 export default {
   name: 'HomePage',
   mixins: [

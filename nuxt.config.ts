@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import packageJson from './package.json';
 export default defineNuxtConfig({
   ssr: true,
   devtools: { 
@@ -11,11 +12,21 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/ionic',
+    '@nuxtjs/device',
     '@nuxtjs/supabase',
     '@pinia-plugin-persistedstate/nuxt'
   ],
+  plugins: [
+    '@/plugins/masonry.js',
+    '@/plugins/storage.js',
+  ],
   runtimeConfig: {
     public: {
+      app: {
+        name: packageJson.name,
+        version: packageJson.version,
+        description: packageJson.description
+      }
     },
   },
   ionic: {
