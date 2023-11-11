@@ -2,6 +2,7 @@ import * as localForage from "localforage";
 export class Storage {
 
   constructor(name=null) {
+    console.log("services/storage", process.client ? "client" : "server")
     if (process.client) {
       localForage.config({
         driver: [

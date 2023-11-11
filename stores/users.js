@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
 
 export const useUsersStore = defineStore("users", {
-  persist: {
-    storage: persistedState.localStorage,
-  },
+  // persist: {
+  //   storage: persistedState.localStorage
+  // },
   state: () => {
     return {
       user: null,

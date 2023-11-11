@@ -2,6 +2,7 @@
 import packageJson from './package.json';
 export default defineNuxtConfig({
   ssr: true,
+  debug: true,
   devtools: { 
     enabled: true 
   },
@@ -14,11 +15,11 @@ export default defineNuxtConfig({
     '@nuxtjs/ionic',
     '@nuxtjs/device',
     '@nuxtjs/supabase',
-    '@pinia-plugin-persistedstate/nuxt'
+    // '@pinia-plugin-persistedstate/nuxt'
   ],
   plugins: [
     '@/plugins/masonry.js',
-    '@/plugins/storage.js',
+    '@/plugins/storage.js'
   ],
   runtimeConfig: {
     public: {
