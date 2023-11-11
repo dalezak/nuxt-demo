@@ -32,7 +32,7 @@
 <script>
 import routes from "@/mixins/routes";
 import { mapState } from 'pinia';
-import { useUsersStore } from '@/stores/users';
+import { useUserStore } from '@/stores/users';
 export default {
   name: 'TabsPage',
   mixins: [
@@ -44,7 +44,7 @@ export default {
     })
   },
   computed: {
-    ...mapState(useUsersStore, ['hasUser']),
+    ...mapState(useUserStore, ['hasUser']),
   },
   async mounted() {
     if (this.hasUser) {

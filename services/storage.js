@@ -188,6 +188,7 @@ export class Storage {
   configAppName() {
     const config = useRuntimeConfig();
     if (config && config.public && config.public.app && config.public.app.name) {
+      console.log("configAppName", config.public.app.name);
       return config.public.app.name;
     }
     return process.env.APP_NAME;

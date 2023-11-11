@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 
-export const useUsersStore = defineStore("users", {
+import User from "../models/User";
+
+export const useUserStore = defineStore("users", {
   // persist: {
   //   storage: persistedState.localStorage
   // },
@@ -23,54 +25,69 @@ export const useUsersStore = defineStore("users", {
       if (this.user) {
         return Promise.resolve(this.user);
       }
-      this.user = null;
-      return Promise.resolve();
-    },
-    async userLogin({email, password}) {
-      const Supabase = useSupabaseClient();
-      const { data, error } = await Supabase.auth.signInWithPassword({ 
-        email: email, 
-        password: password 
-      });
-      if (error) {
-        console.error("userLogin", error);
-        this.user = null;
-        return Promise.reject(error.message);      
-      }
-      else if (data && data.user) {
-        console.log("userLogin", data);
-        this.user = data.user;
-        return Promise.resolve(this.user);
+      let user = await User.restore();
+      console.log("userRestore", user);
+      if (user) {
+        this.user = user;
+        return Promise.resolve(user);
       }
       else {
         this.user = null;
-        return Promise.reject("Unable to login user");
+        return Promise.resolve(null);
+      }
+    },
+    async googleSignin() {
+      try {
+        let user = await User.google();
+        if (user) {
+          user = await user.save();
+          user = await user.store(true);
+          user = await User.load(user.id);
+        }
+        this.user = user;
+        return Promise.resolve(user);
+      }
+      catch (error) {
+        return Promise.reject(error);
+      }
+    },
+    async userLogin({email, password}) {
+      try {
+        console.log("userLogin", email);
+        let user = await User.login(email, password);
+        if (user) {
+          user = await user.save();
+          user = await user.store(true);
+        }
+        this.user = user;
+        return Promise.resolve(user);
+      }
+      catch (error) {
+        return Promise.reject(error);
       }
     },
     async userSignup({email, password, name}) {
-      const Supabase = useSupabaseClient();
-      const { data, error } = await Supabase.auth.signUp({ 
-        email: email, 
-        password: password 
-      });
-      if (error) {
-        console.error("userSignup", error);
-        this.user = null;
-        return Promise.reject(error.message);
+      try {
+        let user = await User.signup(email, password, name);
+        if (user) {
+          user = await user.save();
+          user = await user.store(true);
+        }
+        this.user = user;
+        return Promise.resolve(user);
       }
-      else if (data && data.user) {
-        console.log("userSignup", data);
-        this.user = data.user;
-        return Promise.resolve(this.user);
-      }
-      else {
-        this.user = null;
-        return Promise.reject("Unable to signup user");
+      catch (error) {
+        return Promise.reject(error);
       }
     },
     async userLogout() {
-      this.user = null;
-      return Promise.resolve();
+      try {
+        await User.logout();
+        return Promise.resolve();
+      }
+      catch (error) {
+        return Promise.reject(error);
+      }
     }
   }
 });

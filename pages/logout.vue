@@ -14,7 +14,7 @@
 <script lang="js">
 import { mapActions } from 'pinia';
 
-import { useUsersStore } from '@/stores/users';
+import { useUserStore } from '@/stores/users';
 
 import routes from "@/mixins/routes";
 
@@ -28,7 +28,7 @@ export default {
     await this.showUserLogin();
   },
   methods: {
-  ...mapActions(useUsersStore, ['userLogout']),
+  ...mapActions(useUserStore, ['userLogout']),
   }
 }
 </script>

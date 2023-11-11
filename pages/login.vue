@@ -53,7 +53,7 @@
 <script lang="js">
 import { mapActions } from 'pinia';
 
-import { useUsersStore } from '@/stores/users';
+import { useUserStore } from '@/stores/users';
 
 import ionic from "@/mixins/ionic";
 import forms from "@/mixins/forms";
@@ -75,7 +75,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useUsersStore, ['userLogin', 'userSignup']),
+    ...mapActions(useUserStore, ['userLogin', 'userSignup']),
     showLoginForm() {
       this.form = "login"
     },
