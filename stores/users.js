@@ -3,9 +3,6 @@ import { defineStore } from 'pinia';
 import User from "../models/User";
 
 export const useUserStore = defineStore("users", {
-  // persist: {
-  //   storage: persistedState.localStorage
-  // },
   state: () => {
     return {
       user: null,

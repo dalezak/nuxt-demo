@@ -14,8 +14,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/ionic',
     '@nuxtjs/device',
-    '@nuxtjs/supabase',
-    // '@pinia-plugin-persistedstate/nuxt'
+    '@nuxtjs/supabase'
   ],
   plugins: [
     '@/plugins/masonry.js',
