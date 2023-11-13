@@ -1,18 +1,18 @@
-# Nuxt 3 Minimal Starter
+# Nuxt Hybrid App
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-## Setup
+## NPM
 
-Make sure to install the dependencies:
+Install packages
 
 ```bash
 npm install
 ```
 
-## Development Server
+## Development
 
-Start the development server on `http://localhost:3000`:
+Local environment on `http://localhost:3000`
 
 ```bash
 npm run dev -- -o
@@ -20,22 +20,41 @@ npm run dev -- -o
 
 ## Production
 
-Build the application for production:
+Production build
 
 ```bash
 npm run build
 ```
 
-Locally preview production build:
+## Clean
 
-```bash
-npm run preview
-```
-
-Clean Nuxt Cache
+Clean cache
 
 ```bash
 npx nuxi cleanup
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Supabase
+
+Container start on `http://localhost:54323`
+
+```bash
+supabase start
+```
+
+Container stop
+```bash
+supaqbase stop
+```
+
+Database migrate
+
+```bash
+supabase db diff --use-migra -f my_table
+```
+
+Database reset
+
+```bash
+supabase db reset
+```
