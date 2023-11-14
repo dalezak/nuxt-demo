@@ -17,6 +17,18 @@ alter table "public"."users" add constraint "users_pkey" PRIMARY KEY using index
 
 alter table "public"."users" add constraint "users_email_key" UNIQUE using index "users_email_key";
 
+alter table "public"."users" add constraint "users_id_fkey" FOREIGN KEY (id) REFERENCES auth.users(id) not valid;
+
+alter table "public"."users" validate constraint "users_id_fkey";
+
+create policy "Enable delete for users based on user_id"
+on "public"."users"
+as permissive
+for delete
+to authenticated
+using ((auth.uid() = id));
+
+
 create policy "Enable insert for authenticated users only"
 on "public"."users"
 as permissive
@@ -37,9 +49,9 @@ create policy "Enable update for users based on email"
 on "public"."users"
 as permissive
 for update
-to public
-using (((auth.jwt() ->> 'email'::text) = (email)::text))
-with check (((auth.jwt() ->> 'email'::text) = (email)::text));
+to authenticated
+using ((auth.uid() = id))
+with check ((auth.uid() = id));
 
 
 

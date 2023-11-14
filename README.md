@@ -44,17 +44,23 @@ supabase start
 
 Container stop
 ```bash
-supaqbase stop
+supabase stop
 ```
 
 Database migrate
 
 ```bash
-supabase db diff --use-migra -f my_table
+supabase db diff --use-migra -f file_name
 ```
 
 Database reset
 
 ```bash
 supabase db reset
+```
+
+Database push
+
+```bash
+supabase db push
 ```
