@@ -118,7 +118,7 @@ export default {
           });
           console.log("userLogin", user);
           if (user) {
-            this.showToast(`Welcome back ${user.email || "friend"}`);
+            this.showToast(`Welcome back ${user.name || "friend"}`);
             this.showHomePage();
           }
         }
@@ -154,7 +154,7 @@ export default {
           });
           console.log("userSignup", user);
           if (user) {
-            this.showToast(`Welcome ${user.email || "friend"}`);
+            this.showToast(`Welcome ${user.name || "friend"}`);
             this.showHomePage();
           }
         }

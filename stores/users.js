@@ -45,6 +45,7 @@ export const useUserStore = defineStore("users", {
         return Promise.resolve(user);
       }
       catch (error) {
+        console.error("googleSignin", error);
         return Promise.reject(error);
       }
     },
@@ -60,6 +61,7 @@ export const useUserStore = defineStore("users", {
         return Promise.resolve(user);
       }
       catch (error) {
+        console.error("userLogin", error);
         return Promise.reject(error);
       }
     },
@@ -74,6 +76,7 @@ export const useUserStore = defineStore("users", {
         return Promise.resolve(user);
       }
       catch (error) {
+        console.error("userSignup", error);
         return Promise.reject(error);
       }
     },
@@ -83,6 +86,7 @@ export const useUserStore = defineStore("users", {
         return Promise.resolve();
       }
       catch (error) {
+        console.error("userLogout", error);
         return Promise.reject(error);
       }
     }
