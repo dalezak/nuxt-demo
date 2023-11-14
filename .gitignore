@@ -23,4 +23,5 @@ logs
 .env.*
 !.env.example
 
+# VS Code
 *.code-workspace
