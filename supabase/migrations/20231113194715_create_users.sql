@@ -1,9 +1,9 @@
 create table "public"."users" (
     "id" uuid not null,
-    "created_at" timestamp with time zone default now(),
-    "updated_at" timestamp without time zone default now(),
     "email" character varying not null,
-    "name" character varying
+    "name" character varying not null,
+    "created_at" timestamp without time zone default now(),
+    "updated_at" timestamp without time zone default now()
 );
 
 
@@ -45,7 +45,7 @@ to authenticated
 using (true);
 
 
-create policy "Enable update for users based on email"
+create policy "Enable update for users based on user_id"
 on "public"."users"
 as permissive
 for update
