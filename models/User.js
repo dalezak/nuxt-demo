@@ -48,7 +48,7 @@ export default class User extends Model {
     if (error) {
       console.error("google", error);
     }
-    else if (data) {
+    else if (data && data.user && data.session) {
       console.log("google", data);
       let user = new User();
       user.id = data.user.id;
@@ -71,7 +71,7 @@ export default class User extends Model {
     if (error) {
       console.error("login", error);
     }
-    else if (data) {
+    else if (data && data.user && data.session) {
       console.log("login", data);
       let user = new User();
       user.id = data.user.id;
@@ -94,7 +94,7 @@ export default class User extends Model {
     if (error) {
       console.error("signup", error);
     }
-    else if (data) {
+    else if (data && data.user && data.session) {
       console.log("signup", data);
       let user = new User();
       user.id = data.user.id;
@@ -110,10 +110,16 @@ export default class User extends Model {
   }
 
   static async logout() {
-    const Storage = useStorage();
-    const Supabase = useSupabaseClient();
-    await Supabase.auth.signOut()
-    await Storage.clear();
+    try {
+      const Storage = useStorage();
+      await Storage.clear();
+      
+      const Supabase = useSupabaseClient();
+      await Supabase.auth.signOut();
+    }
+    catch (error){
+      console.error("logout", error);
+    }
   }
 
 }

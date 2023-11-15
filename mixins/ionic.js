@@ -8,10 +8,10 @@ import {
 } from "@ionic/vue";
 export default {
   methods: {
-    async showToast(message, params = {}, duration = 2000) {
+    async showToast(message, seconds = 3) {
       const toast = await toastController.create({
         message: message,
-        duration: duration
+        duration: seconds * 1000
       });
       toast.present();
       return toast;
@@ -26,7 +26,7 @@ export default {
         });
         await this.$loading.present();
       }
-      if (hide > 0) {
+      if (hide && hide > 0) {
         this.hideLoading(hide);
       }
       return this.$loading;

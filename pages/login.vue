@@ -121,6 +121,9 @@ export default {
             this.showToast(`Welcome back ${user.name || "friend"}`);
             this.showHomePage();
           }
+          else {
+            this.showToast("There was a problem logging in, please try again later.", 5);
+          }
         }
         catch (error) {
           console.error("userLogin", error);
@@ -156,6 +159,9 @@ export default {
           if (user) {
             this.showToast(`Welcome ${user.name || "friend"}`);
             this.showHomePage();
+          }
+          else {
+            this.showToast("Please check your email to verify your account", 5);
           }
         }
         catch (error) {
