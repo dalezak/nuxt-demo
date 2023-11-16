@@ -65,6 +65,12 @@ Database reset
 supabase db reset
 ```
 
+Database seed
+
+```bash
+npx snaplet generate --sql > supabase/seed.sql
+```
+
 Database push
 
 ```bash
