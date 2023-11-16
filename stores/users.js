@@ -54,7 +54,7 @@ export const useUserStore = defineStore("users", {
         console.log("userLogin", email);
         let user = await User.login(email, password);
         if (user) {
-          user = await user.save();
+          user = await User.load(user.id);
           user = await user.store(true);
         }
         this.user = user;
@@ -71,6 +71,7 @@ export const useUserStore = defineStore("users", {
         if (user) {
           user = await user.save();
           user = await user.store(true);
+          user = await User.load(user.id);
         }
         this.user = user;
         return Promise.resolve(user);

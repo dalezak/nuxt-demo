@@ -16,6 +16,10 @@
             <ion-icon :icon="ioniconsHome" />
             <ion-label>Home</ion-label>
           </ion-tab-button>
+          <ion-tab-button tab="posts" href="/posts">
+            <ion-icon :icon="ioniconsChatboxOutline" />
+            <ion-label>Posts</ion-label>
+          </ion-tab-button>
           <ion-tab-button tab="profile" href="/profile">
             <ion-icon :icon="ioniconsPerson" />
             <ion-label>Profile</ion-label>
