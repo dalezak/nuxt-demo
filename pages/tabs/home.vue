@@ -15,11 +15,13 @@
 
 <script>
 import routes from "@/mixins/routes";
+import ionic from "@/mixins/ionic";
 
 export default {
   name: 'HomePage',
   mixins: [
-    routes
+    routes,
+    ionic
   ],
   data() {
     return {

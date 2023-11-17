@@ -1,6 +1,15 @@
 import * as localForage from "localforage";
 export class Storage {
 
+  static _instance;
+
+  static instance() {
+    if (!this._instance) {
+      this._instance = new Storage();
+    }
+    return this._instance;
+  }
+
   constructor(name=null) {
     console.log("services/storage", process.client ? "client" : "server")
     if (process.client) {

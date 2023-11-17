@@ -18,8 +18,9 @@
   </ion-page>
 </template>
 
-<script lang="js">
+<script>
 import routes from "@/mixins/routes";
+import ionic from "@/mixins/ionic";
 
 import { mapState, mapActions } from 'pinia';
 
@@ -29,7 +30,8 @@ import { usePostStore } from '@/stores/posts';
 export default {
   name: 'PostList',
   mixins: [
-    routes
+    routes,
+    ionic
   ],
   setup() {
     definePageMeta({

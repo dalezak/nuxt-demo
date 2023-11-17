@@ -34,17 +34,17 @@ export default class Models extends Array {
     const Supabase = useSupabaseClient();
     let collection = new collectionClass();
     let query = Supabase.from(table).select(select);
-    query = query.range(offset, limit);
+    query = query.range(offset, offset+limit-1);
     if (clauses && clauses.length > 0) {
       for (let clause of clauses) {
         let column = clause.at(0);
         let operator = clause.at(1);
         let value = clause.at(2);
-        // console.log(`loadModels query`, {
-        //   column: column,
-        //   operator: operator,
-        //   value: value
-        // })
+        console.log(`loadModels query`, {
+          column: column,
+          operator: operator,
+          value: value
+        })
         if (operator == "eq") {
           query = query.eq(column, value);
         }

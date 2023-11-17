@@ -3,10 +3,7 @@ export default defineEventHandler(async (event) => {
   const query = getQuery(event);
   const limit = parseInt(query.limit || 12);
   const offset = parseInt(query.offset || 0);
-  console.log("query", query);
-  console.log("limit", limit);
-  console.log("offset", offset);
-  await new Promise(resolve => setTimeout(resolve, 2000));
+  await new Promise(resolve => setTimeout(resolve, 1000));
   let items = [];
   for (let i=offset+1; i<limit+offset+1; i++) {
     items.push({
