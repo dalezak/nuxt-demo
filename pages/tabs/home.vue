@@ -13,77 +13,47 @@
   </ion-page>
 </template>
 
-<script>
-import routes from "@/mixins/routes";
-import ionic from "@/mixins/ionic";
+<script setup>
+const limit = 12;
+let offset = $ref(0);
+let count = $ref(0);
+let search = $ref("");
+let items = reactive([]);
+let loading = $ref(false);
 
-export default {
-  name: 'HomePage',
-  mixins: [
-    routes,
-    ionic
-  ],
-  data() {
-    return {
-      limit: 12,
-      offset: 0,
-      count: 0,
-      search: "",
-      items: [],
-      loading: false
+async function loadItems(_offset=0) {
+  showLoading();
+  try {
+    loading = true;
+    offset = _offset;
+    const { data: results } = await useFetch('/api/items', {
+      key: `items-${offset}-${limit}-${search}`,
+      params: {
+        limit: limit, 
+        offset: offset,
+        search: search
+      },
+      initialCache: false
+    })
+    console.log(`loadItems ${offset} to ${offset + limit}`, results);
+    if (offset == 0) {
+      items = reactive(results);
     }
-  },
-  async mounted() {
-    this.loadItems();
-  },
-  methods: {
-    async loadItems(offset=0) {
-      try {
-        this.loading = true;
-        this.offset = offset;
-        const { data:items } = await useFetch('/api/items', {
-          key: `items-${this.offset}-${this.limit}-${this.search}`,
-          params: {
-            limit: this.limit, 
-            offset: this.offset,
-            search: this.search
-          },
-          initialCache: false
-        })
-        console.log(`loadItems ${this.offset} to ${this.offset + this.limit}`, items.value);
-        if (this.offset == 0) {
-          this.items = items.value;
-        }
-        else {
-          this.items.push(...items.value);
-        }
-        this.count = this.items ? this.items.length : 0;
-      }
-      catch (error) {
-        console.error("loadItems", error);
-      }
-      finally {
-        this.loading = false;
-      }
-    },
-    async serverFetch() {
-      const { data } = await useFetch('/api/fetch', {
-        method: 'get',
-        params: {
-          test: 123
-        }
-      })
-      console.log("serverFetch", data.value);
-    },
-    async serverSubmit() {
-      const { data } = await useFetch('/api/submit', {
-        method: 'post',
-        body: { 
-          test: 123 
-        }
-      })
-      console.log("serverSubmit", data.value);
+    else {
+      items.push(...results);
     }
+    count = items ? items.length : 0;
+    showToast(`Loaded ${count} items`);
+  }
+  catch (error) {
+    console.error("loadItems", error);
+    showWarning("Problem Loading Items", error);
+  }
+  finally {
+    loading = false;
+    hideLoading();
   }
 }
+
+loadItems();
 </script>

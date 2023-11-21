@@ -51,7 +51,7 @@ export const useUserStore = defineStore("users", {
     },
     async userLogin({email, password}) {
       try {
-        console.log("userLogin", email);
+        console.log("userLogin", email, password);
         let user = await User.login(email, password);
         if (user) {
           user = await User.load(user.id);
@@ -67,8 +67,10 @@ export const useUserStore = defineStore("users", {
     },
     async userSignup({email, password, name}) {
       try {
+        console.log("userSignup", name, email, password);
         let user = await User.signup(email, password, name);
         if (user) {
+          user.name = name;
           user = await user.save();
           user = await user.store(true);
           user = await User.load(user.id);

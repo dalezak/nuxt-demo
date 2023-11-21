@@ -11,36 +11,36 @@
           <ion-col size="12" size-sm="12" size-md="10" size-lg="8" size-xl="6">
             <ion-card class="ion-margin">
               <ion-card-header>
-                <ion-card-title v-if="form=='signup'">Welcome</ion-card-title>
-                <ion-card-title v-else-if="form=='login'">Welcome back</ion-card-title>
-                <ion-card-subtitle v-if="form=='signup'">Enter your name, email and password</ion-card-subtitle>
-                <ion-card-subtitle v-else-if="form=='login'">Enter your email and password</ion-card-subtitle>
+                <ion-card-title v-if="isSignup">Welcome</ion-card-title>
+                <ion-card-title v-else-if="isLogin">Welcome back</ion-card-title>
+                <ion-card-subtitle v-if="isSignup">Enter your name, email and password</ion-card-subtitle>
+                <ion-card-subtitle v-else-if="isLogin">Enter your email and password</ion-card-subtitle>
               </ion-card-header>
-              <ion-item lines="inset" v-if="form=='signup'">
+              <ion-item lines="inset" v-if="isSignup">
                 <ion-label position="floating">Name</ion-label>
-                <ion-input aria-label="Name" ref="name" v-model="name" type="text" required v-on:keyup.enter="onEnter"></ion-input>
+                <ion-input aria-label="Name" ref="nameInput" v-model="name" type="text" :required="isSignup" v-on:keyup.enter="onEnter"></ion-input>
               </ion-item>
-              <ion-item lines="inset" >
+              <ion-item lines="inset">
                 <ion-label position="floating">Email</ion-label>
-                <ion-input aria-label="Email" ref="email" v-model="email" type="text" required v-on:keyup.enter="onEnter"></ion-input>
+                <ion-input aria-label="Email" ref="emailInput" v-model="email" type="text" required v-on:keyup.enter="onEnter"></ion-input>
               </ion-item>
               <ion-item lines="inset">
                 <ion-label position="floating">Password</ion-label>
-                <ion-input aria-label="Password" ref="password" v-model="password" type="password" required v-on:keyup.enter="onEnter"></ion-input>
+                <ion-input aria-label="Password" ref="passwordInput" v-model="password" type="password" required v-on:keyup.enter="onEnter"></ion-input>
               </ion-item>
               <ion-card-content>
                 <ion-row>
                   <ion-col class="ion-no-padding ion-text-end">
-                    <ion-button fill="solid" @click="doLogin" v-if="form=='login'">Login</ion-button>
-                    <ion-button fill="solid" @click="doSignup" v-else-if="form=='signup'">Signup</ion-button>
+                    <ion-button fill="solid" @click="doSignup" v-if="isSignup">Signup</ion-button>
+                    <ion-button fill="solid" @click="doLogin" v-else-if="isLogin">Login</ion-button>
                   </ion-col>
                 </ion-row>
               </ion-card-content>
             </ion-card>
             <ion-card class="ion-margin">
               <ion-card-content>
-                <ion-button fill="clear" @click="showLoginForm" v-if="form=='signup'">Already have an account?</ion-button>
-                <ion-button fill="clear" @click="showSignupForm" v-if="form=='login'">Don't have an account yet?</ion-button>
+                <ion-button fill="clear" @click="toggleForm" v-if="isSignup">Already have an account?</ion-button>
+                <ion-button fill="clear" @click="toggleForm" v-if="isLogin">Don't have an account yet?</ion-button>
               </ion-card-content>
             </ion-card>
           </ion-col>
@@ -50,131 +50,129 @@
   </ion-page>
 </template>
 
-<script lang="js">
-import { mapActions } from 'pinia';
+<script setup>
+let name = $ref("");
+let nameInput = $ref("");
 
-import { useUserStore } from '@/stores/users';
+let email = $ref("");
+let emailInput = $ref("");
 
-import ionic from "@/mixins/ionic";
-import forms from "@/mixins/forms";
-import routes from "@/mixins/routes";
+let password = $ref("");
+let passwordInput = $ref("");
 
-export default {
-  name: 'UserLogin',
-  mixins: [
-    ionic,
-    forms,
-    routes
-  ],
-  data() {
-    return {
-      form: "login",
-      name: "",
-      email: "",
-      password: ""
+let form = $ref("login");
+
+let isLogin = $computed(() => form == "login");
+let isSignup = $computed(() => form == "signup");
+
+const userStore = useUserStore();
+const { userLogin, userSignup } = userStore;
+  
+function toggleForm() {
+  if (form == "login") {
+    form = "signup";
+  }
+  else {
+    form = "login";
+  }
+}
+
+function hasName() {
+  if (isSignup && name.length == 0) {
+    showToast("Please enter your name");
+    setFocus(nameInput);
+    return false;
+  }
+  return true;
+}
+
+function hasEmail() {
+  if (email.length == 0) {
+    showToast("Please enter your email");
+    setFocus(emailInput);
+    return false;
+  }
+  return true;
+}
+
+function hasPassword() {
+  if (password.length == 0) {
+    showToast("Please enter your password");
+    setFocus(passwordInput);
+    return false;
+  }
+  return true;
+}
+
+function onEnter() {
+  if (hasName() && hasEmail() && hasPassword()) {
+    if (isSignup) {
+      doSignup();
     }
-  },
-  methods: {
-    ...mapActions(useUserStore, ['userLogin', 'userSignup']),
-    showLoginForm() {
-      this.form = "login"
-    },
-    showSignupForm() {
-      this.form = "signup"
-    },
-    onEnter() {
-      if (this.form == "signup" && this.name.length == 0) {
-        this.setFocus(this.$refs.name);
-      }
-      else if (this.email.length == 0) {
-        this.setFocus(this.$refs.email);
-      }
-      else if (this.password.length == 0) {
-        this.setFocus(this.$refs.password);
-      }
-      else if (this.form == "signup") {
-        this.doSignup();
-      }
-      else if (this.form == "login") {
-        this.doLogin();
-      }
-    },
-    async doLogin() {
-      if (this.email.length == 0) {
-        this.showToast("Please enter your email");
-        this.setFocus(this.$refs.email);
-      }
-      else if (this.password.length == 0) {
-        this.showToast("Please enter your password");
-        this.setFocus(this.$refs.password);
-      }
-      else {
-        try {
-          console.log("email", this.email);
-          this.showLoading("Logging in...");
-          let user = await this.userLogin({
-            email: this.email, 
-            password: this.password
-          });
-          console.log("userLogin", user);
-          if (user) {
-            this.showToast(`Welcome back ${user.name || "friend"}`);
-            this.showHomePage();
-          }
-          else {
-            this.showToast("There was a problem logging in, please try again later.", 5);
-          }
-        }
-        catch (error) {
-          console.error("userLogin", error);
-          this.showAlert("Problem Logging In", error);
-        }
-        finally {
-          this.hideLoading();
-        }
-      }
-    },
-    async doSignup() {
-      if (this.name.length == 0) {
-        this.showToast("Please enter your name");
-        this.setFocus(this.$refs.name);
-      }
-      else if (this.email.length == 0) {
-        this.showToast("Please enter your email");
-        this.setFocus(this.$refs.email);
-      }
-      else if (this.password.length == 0) {
-        this.showToast("Please enter your password");
-        this.setFocus(this.$refs.password);
-      }
-      else {
-        try {
-          this.showLoading("Signing up...");
-          let user = await this.userSignup({
-            name: this.name,
-            email: this.email,
-            password: this.password
-          });
-          console.log("userSignup", user);
-          if (user) {
-            this.showToast(`Welcome ${user.name || "friend"}`);
-            this.showHomePage();
-          }
-          else {
-            this.showToast("Please check your email to verify your account", 5);
-          }
-        }
-        catch (error) {
-          console.error("userSignup", error);
-          this.showAlert("Problem Signing Up", error);
-        }
-        finally {
-          this.hideLoading();
-        }
-      }
+    else if (isLogin) {
+      doLogin();
     }
   }
 }
+
+async function doLogin() {
+  console.log("doLogin", email, password);
+  if (hasEmail() && hasPassword()) {
+    try {
+      console.log("doLogin", email, password);
+      showLoading("Logging in...");
+      let user = await userLogin({
+        email: email, 
+        password: password
+      });
+      console.log("userLogin", user);
+      if (user) {
+        showToast(`Welcome back ${user.name || "friend"}`);
+        showPageHome();
+      }
+      else {
+        showAlert("Problem Logging In", "Please enter your credentials and try again.");
+      }
+    }
+    catch (error) {
+      console.error("userLogin", error);
+      showAlert("Problem Logging In", error);
+    }
+    finally {
+      hideLoading();
+    }
+  }
+}
+
+async function doSignup() {
+  console.log("doSignup", name, email, password);
+  if (hasName() && hasEmail() && hasPassword()) {
+    try {
+      showLoading("Signing up...");
+      let user = await userSignup({
+        name: name,
+        email: email,
+        password: password
+      });
+      console.log("userSignup", user);
+      if (user) {
+        showToast(`Welcome ${user.name || "friend"}`);
+        showPageHome();
+      }
+      else {
+        showAlert("Problem Signing In", "Please enter your information and try again.");
+      }
+    }
+    catch (error) {
+      console.error("userSignup", error);
+      showAlert("Problem Signing Up", error);
+    }
+    finally {
+      hideLoading();
+    }
+  }
+}
+
 </script>
 
 <style scoped>

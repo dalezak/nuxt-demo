@@ -24,46 +24,27 @@
   </ion-page>
 </template>
 
-<script>
-import routes from "@/mixins/routes";
-import ionic from "@/mixins/ionic";
+<script setup>
+const route = useRoute();
 
-import { mapState, mapActions } from 'pinia';
+const { getPosts } = storeToRefs(postStore);
+const { loadPost } = postStore;
 
-import { useUserStore } from '@/stores/users';
-import { usePostStore } from '@/stores/posts';
+definePageMeta({
+  title: 'Post'
+})
 
-export default {
-  name: 'PostDetails',
-  mixins: [
-    routes,
-    ionic
-  ],
-  setup() {
-    definePageMeta({
-      title: 'Post'
-    })
-  },
-  computed: {
-    ...mapState(useUserStore, ['user', 'getUser']),
-    ...mapState(usePostStore, ['post', 'getPost']),
-  },
-  async mounted() {
-    try {
-      await this.loadPost({ 
-        id: this.$route.params.id
-      });
-    }
-    catch (error) {
-      this.showError("Problem Loading Post", error.message);
-    }
-  },
-  methods: {
-    ...mapActions(usePostStore, ['loadPost']),
-    async sharePost(post) {
-      console.log("sharePost", post);
-    }
-  }
+async function sharePost(post) {
+  console.log("sharePost", post);
+}
+
+try {
+  await this.loadPost({ 
+    id: route.params.id
+  });
+}
+catch (error) {
+  showWarning("Problem Loading Post", error.message);
 }
 </script>
 

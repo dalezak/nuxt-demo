@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-title>Nuxt</ion-title>
         <ion-buttons slot="primary">
-          <ion-button @click="showUserLogin" title="Login">Login</ion-button>
+          <ion-button @click="showPageLogin" title="Login">Login</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -33,27 +33,19 @@
   </ion-page>
 </template>
 
-<script>
-import routes from "@/mixins/routes";
-import { mapState } from 'pinia';
-import { useUserStore } from '@/stores/users';
-export default {
-  name: 'TabsPage',
-  mixins: [
-    routes
-  ],
-  setup() {
-    definePageMeta({
-      alias: ['/'],
-    })
-  },
-  computed: {
-    ...mapState(useUserStore, ['hasUser']),
-  },
-  async mounted() {
-    if (this.hasUser) {
-      this.showHomePage();
-    }
+<script setup>
+definePageMeta({
+  alias: ['/'],
+})
+
+const route = useRoute();
+
+const userStore = useUserStore();
+const { hasUser } = storeToRefs(userStore);
+
+onMounted(() => {
+  if (hasUser && route.path == "/") {
+    showPageHome();
   }
-}
+})
 </script>

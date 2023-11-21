@@ -2,7 +2,7 @@
 import packageJson from './package.json';
 export default defineNuxtConfig({
   ssr: true,
-  debug: true,
+  debug: false,
   devtools: { 
     enabled: true 
   },
@@ -14,7 +14,9 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/ionic',
     '@nuxtjs/device',
-    '@nuxtjs/supabase'
+    '@nuxtjs/supabase',
+    '@vue-macros/nuxt',
+    // 'cookie-universal-nuxt'
   ],
   plugins: [
     '@/plugins/masonry.js',

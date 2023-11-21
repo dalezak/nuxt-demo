@@ -11,26 +11,14 @@
   </ion-page>
 </template>
 
-<script lang="js">
-import { mapActions } from 'pinia';
+<script setup>
+const userStore = useUserStore();
+const { userLogout } = userStore;
 
-import { useUserStore } from '@/stores/users';
-
-import routes from "@/mixins/routes";
-
-export default {
-  name: "UserLogout",
-  mixins: [
-    routes
-  ],
-  async mounted() {
-    await this.userLogout();
-    await this.showUserLogin();
-  },
-  methods: {
-  ...mapActions(useUserStore, ['userLogout']),
-  }
-}
+onMounted (async () => {
+  await userLogout();
+  await showPageLogin();
+})
 </script>
 
 <style scoped lang="scss">

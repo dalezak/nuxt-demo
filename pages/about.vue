@@ -10,18 +10,13 @@
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
       <ion-button router-link="/" router-direction="back">Home</ion-button>
+      <ion-button @click="hidePage()">Go Back</ion-button>
     </ion-content>
   </ion-page>
 </template>
 
-<script>
-import routes from "@/mixins/routes";
-export default {
-  name: 'AboutPage',
-  mixins: [
-    routes
-  ]
-}
+<script setup>
+
 </script>
 
 <style scoped></style>

@@ -17,27 +17,24 @@
   </transition>
 </template>
 
-<script>
-export default {
-  name: "PostCard",
-  props: {
-    post: {
-      type: Object
-    },
-    loading: {
-      type: Boolean,
-      default: false
-    },
+<script setup>
+const props = defineProps({
+  post: {
+    type: Object
   },
-  emits: [
-    "share"
-  ],
-  methods: {
-    sharePost(event) {
-      event.stopPropagation();
-      this.$emit("share", this.post);
-    }
+  loading: {
+    type: Boolean,
+    default: false
   }
+});
+
+const emit = defineEmits([
+  "share"
+])
+
+function sharePost(event) {
+  event.stopPropagation();
+  emit('share', props.post);
 }
 </script>
 

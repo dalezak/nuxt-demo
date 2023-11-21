@@ -12,83 +12,63 @@
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
       <grid-cards :loading="loading" :limit="limit" :count="count" :search="search" label="posts" @more="searchPosts(offset+limit)">
-        <post-card :user="user" :post="post" @share="sharePost(post)" @click="showPostDetails(post.id)" :key="post.id" v-for="post of posts"></post-card>
+        <post-card :user="getUser" :post="post" @share="sharePost(post)" @click="showPostDetails(post.id)" :key="post.id" v-for="post of getPosts"></post-card>
       </grid-cards>
     </ion-content>
   </ion-page>
 </template>
 
-<script>
-import routes from "@/mixins/routes";
-import ionic from "@/mixins/ionic";
+<script setup>
+const limit = 12;
+let offset = $ref(0);
+let count = $ref(0);
+let search = $ref("");
+let loading = $ref(false);
 
-import { mapState, mapActions } from 'pinia';
+const userStore = useUserStore();
+const postStore = usePostStore();
 
-import { useUserStore } from '@/stores/users';
-import { usePostStore } from '@/stores/posts';
+const { getUser } = storeToRefs(userStore);
+const { getPosts } = storeToRefs(postStore);
+const { loadPosts } = postStore;
 
-export default {
-  name: 'PostList',
-  mixins: [
-    routes,
-    ionic
-  ],
-  setup() {
-    definePageMeta({
-      title: 'Posts'
-    })
-  },
-  data() {
-    return {
-      limit: 12,
-      offset: 0,
-      count: 0,
-      search: "",
-      loading: false
-    }
-  },
-  computed: {
-    ...mapState(useUserStore, ['user', 'getUser']),
-    ...mapState(usePostStore, ['posts', 'getPosts']),
-  },
-  async mounted() {
-    await this.searchPosts();
-  },
-  methods: {
-    ...mapActions(usePostStore, ['loadPosts']),
-    searchChanged(search) {
-      this.search = search;
-      this.searchPosts();
-    },
-    async searchPosts(offset = 0) {
-      try {
-        this.loading = true;
-        this.offset = offset;
-        let posts = await this.loadPosts({
-          limit: this.limit, 
-          offset: this.offset, 
-          search: this.search
-        });
-        this.count = posts ? posts.length : 0;
-      }
-      catch (error) {
-        this.showError("Problem Loading Posts", error.message);
-      }
-      finally {
-        this.loading = false;
-      }
-    },
-    async showPostForm() {
-      console.log("showPostForm");
-    },
-    showPostDetails(id) {
-      console.log("showPostDetails", id);
-    },
-    async sharePost(post) {
-      console.log("sharePost", post);
-    }
+function searchChanged(_search) {
+  search = _search;
+  searchPosts();
+}
+
+async function searchPosts(_offset = 0) {
+  try {
+    loading = true;
+    offset = _offset;
+    let posts = await loadPosts({
+      limit: limit, 
+      offset: offset, 
+      search: search
+    });
+    count = posts ? posts.length : 0;
+  }
+  catch (error) {
+    showWarning("Problem Loading Posts", error.message);
+  }
+  finally {
+    loading = false;
   }
 }
+
+async function showPostForm() {
+  console.log("showPostForm");
+}
+
+function showPostDetails(id) {
+  console.log("showPostDetails", id);
+}
+
+async function sharePost(post) {
+  console.log("sharePost", post);
+}
+
+searchChanged();
 </script>
 
 <style scoped lang="scss">

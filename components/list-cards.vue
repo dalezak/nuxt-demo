@@ -24,45 +24,37 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'list-cards',
-  props: {
-    limit: {
-      type: Number,
-      default: 0
-    },
-    count: {
-      type: Number,
-      default: 0
-    },
-    loading: {
-      type: Boolean,
-      default: false
-    },
-    label: {
-      type: String,
-      default: "items"
-    },
-    search: {
-      type: String,
-      default: ""
-    }
+<script setup>
+const props = defineProps({
+  limit: {
+    type: Number,
+    default: 0
   },
-  data() {
-    return { }
+  count: {
+    type: Number,
+    default: 0
   },
-  emits: [
-    "more"
-  ],
-  mounted() {
+  loading: {
+    type: Boolean,
+    default: false
   },
-  methods: {
-    onMore(event) {
-      event.stopPropagation();
-      this.$emit("more");
-    },
+  label: {
+    type: String,
+    default: "items"
+  },
+  search: {
+    type: String,
+    default: ""
   }
+})
+
+const emit = defineEmits([
+  "more"
+])
+
+function onMore(event) {
+  event.stopPropagation();
+  emit('more');
 }
 </script>
 

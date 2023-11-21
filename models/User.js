@@ -46,10 +46,10 @@ export default class User extends Model {
       provider: 'google' 
     });
     if (error) {
-      console.error("google", error);
+      console.error("User.google", error);
     }
     else if (data && data.user && data.session) {
-      console.log("google", data);
+      console.log("User.google", data);
       let user = new User();
       user.id = data.user.id;
       user.email = data.user.email;
@@ -69,10 +69,10 @@ export default class User extends Model {
       password: password 
     });
     if (error) {
-      console.error("login", error);
+      console.error("User.login", error);
     }
     else if (data && data.user && data.session) {
-      console.log("login", data);
+      console.log("User.login", data);
       let user = new User();
       user.id = data.user.id;
       user.email = data.user.email;
@@ -92,10 +92,10 @@ export default class User extends Model {
       password: password 
     });
     if (error) {
-      console.error("signup", error);
+      console.error("User.signup", error);
     }
     else if (data && data.user && data.session) {
-      console.log("signup", data);
+      console.log("User.signup", data);
       let user = new User();
       user.id = data.user.id;
       user.email = data.user.email;
@@ -118,7 +118,7 @@ export default class User extends Model {
       await Supabase.auth.signOut();
     }
     catch (error){
-      console.error("logout", error);
+      console.error("User.logout", error);
     }
   }
 
