@@ -112,4 +112,20 @@ export default class User extends SupaModel {
     }
   }
 
+  static async resetPassword(email) {
+    const Supabase = useSupabaseClient();
+    const { data, error } = await Supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${process.env.APP_URL}/reset?email=${email}`,
+    });
+    if (error) {
+      console.error("User.resetPassword", error);
+      return false;
+    }
+    else if (data) {
+      console.log("User.resetPassword", data);
+      return true;
+    }
+    return false;
+  }
+
 }

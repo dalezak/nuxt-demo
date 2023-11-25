@@ -13,18 +13,17 @@
               <ion-card-header>
                 <ion-card-title v-if="isSignup">Welcome</ion-card-title>
                 <ion-card-title v-else-if="isLogin">Welcome back</ion-card-title>
-                <ion-card-subtitle v-if="isSignup">Enter your name, email and password</ion-card-subtitle>
-                <ion-card-subtitle v-else-if="isLogin">Enter your email and password</ion-card-subtitle>
+                <ion-card-title v-else-if="isReset">Reset password</ion-card-title>
               </ion-card-header>
               <ion-item lines="inset" v-if="isSignup">
                 <ion-label position="floating">Name</ion-label>
                 <ion-input aria-label="Name" ref="nameInput" v-model="name" type="text" :required="isSignup" v-on:keyup.enter="onEnter"></ion-input>
               </ion-item>
-              <ion-item lines="inset">
+              <ion-item lines="inset" v-if="isSignup || isLogin || isReset">
                 <ion-label position="floating">Email</ion-label>
                 <ion-input aria-label="Email" ref="emailInput" v-model="email" type="text" required v-on:keyup.enter="onEnter"></ion-input>
               </ion-item>
-              <ion-item lines="inset">
+              <ion-item lines="inset" v-if="isSignup || isLogin">
                 <ion-label position="floating">Password</ion-label>
                 <ion-input aria-label="Password" ref="passwordInput" v-model="password" type="password" required v-on:keyup.enter="onEnter"></ion-input>
               </ion-item>
@@ -33,14 +32,17 @@
                   <ion-col class="ion-no-padding ion-text-end">
                     <ion-button fill="solid" @click="doSignup" v-if="isSignup">Signup</ion-button>
                     <ion-button fill="solid" @click="doLogin" v-else-if="isLogin">Login</ion-button>
+                    <ion-button fill="solid" @click="doReset" v-else-if="isReset">Email Instructions</ion-button>
                   </ion-col>
                 </ion-row>
               </ion-card-content>
             </ion-card>
             <ion-card class="ion-margin">
               <ion-card-content>
-                <ion-button fill="clear" @click="toggleForm" v-if="isSignup">Already have an account?</ion-button>
-                <ion-button fill="clear" @click="toggleForm" v-if="isLogin">Don't have an account yet?</ion-button>
+                <ion-button fill="clear" @click="loginForm" v-if="isSignup">Already have an account?</ion-button>
+                <ion-button fill="clear" @click="loginForm" v-if="isReset">Back to login form?</ion-button>
+                <ion-button fill="clear" @click="signupForm" v-if="isLogin">Don't have an account yet?</ion-button>
+                <ion-button fill="clear" @click="resetForm" v-if="isLogin">Forgot your password?</ion-button>
               </ion-card-content>
             </ion-card>
           </ion-col>
@@ -68,21 +70,25 @@ let form = $ref("login");
 
 let isLogin = $computed(() => form == "login");
 let isSignup = $computed(() => form == "signup");
+let isReset = $computed(() => form == "reset");
 
 const userStore = useUserStore();
-const { userLogin, userSignup } = userStore;
+const { userLogin, userSignup, resetPassword } = userStore;
   
-function toggleForm() {
-  if (form == "login") {
-    form = "signup";
-  }
-  else {
-    form = "login";
-  }
+function loginForm() {
+  form = "login";
+}
+
+function signupForm() {
+  form = "signup";
+}
+
+function resetForm() {
+  form = "reset";
 }
 
 function hasName() {
-  if (isSignup && name.length == 0) {
+  if (name.length == 0) {
     showToast("Please enter your name");
     setFocus(nameInput);
     return false;
@@ -109,29 +115,27 @@ function hasPassword() {
 }
 
 function onEnter() {
-  if (hasName() && hasEmail() && hasPassword()) {
-    if (isSignup) {
-      doSignup();
-    }
-    else if (isLogin) {
-      doLogin();
-    }
+  if (isSignup && hasName() && hasEmail() && hasPassword()) {
+    doSignup();
+  }
+  else if (isLogin && hasEmail() && hasPassword()) {
+    doLogin();
+  }
+  else if (isReset && hasEmail()) {
+    doReset();
   }
 }
 
 async function doLogin() {
-  console.log("doLogin", email, password);
   if (hasEmail() && hasPassword()) {
     try {
-      console.log("doLogin", email, password);
       showLoading("Logging in...");
       let user = await userLogin({
         email: email, 
         password: password
       });
-      console.log("userLogin", user);
       if (user) {
-        showToast(`Welcome back ${user.name || "friend"}`);
+        showToast("Welcome back friend");
         showPageHome();
       }
       else {
@@ -139,7 +143,7 @@ async function doLogin() {
       }
     }
     catch (error) {
-      console.error("userLogin", error);
+      console.error("doLogin", error);
       showAlert("Problem Logging In", error);
     }
     finally {
@@ -149,7 +153,6 @@ async function doLogin() {
 }
 
 async function doSignup() {
-  console.log("doSignup", name, email, password);
   if (hasName() && hasEmail() && hasPassword()) {
     try {
       showLoading("Signing up...");
@@ -158,9 +161,8 @@ async function doSignup() {
         email: email,
         password: password
       });
-      console.log("userSignup", user);
       if (user) {
-        showToast(`Welcome ${user.name || "friend"}`);
+        showToast("Welcome friend");
         showPageHome();
       }
       else {
@@ -168,8 +170,26 @@ async function doSignup() {
       }
     }
     catch (error) {
-      console.error("userSignup", error);
+      console.error("doSignup", error);
       showAlert("Problem Signing Up", error);
+    }
+    finally {
+      hideLoading();
+    }
+  }
+}
+
+async function doReset() {
+  if (hasEmail()) {
+    try {
+      await resetPassword({
+        email: email
+      });
+      showAlert("Password Reset", "Please check your email for instructions to reset your password.");
+    }
+    catch (error) {
+      console.error("doReset", error);
+      showAlert("Problem Resetting Password", error);
     }
     finally {
       hideLoading();
