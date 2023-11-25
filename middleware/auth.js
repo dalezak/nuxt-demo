@@ -1,23 +1,21 @@
-import { useUserStore } from "@/stores/users";
 export default defineNuxtRouteMiddleware(async(to, from) => {
-  const userStore = useUserStore();
-  const user = await userStore.userRestore();
-  console.log(`auth ${from.path} >> ${to.path}`, user);
+  const isAuthenticated = useAuthenticated();
+  console.log(`auth from ${from.path} to ${to.path}`, isAuthenticated);
   if (to.path == '/') {
     return;
   }
   else if (to.path == '/login') {
-    if (user && user.email) {
+    if (isAuthenticated) {
       return navigateTo('/');
     }
     else {
-      return
+      return;
     }
   }
   else if (to.path == '/logout') {
     return;
   }
-  else if (user && user.email) {
+  else if (isAuthenticated) {
     return;
   }
   else {

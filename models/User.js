@@ -1,14 +1,11 @@
-import Model from './Model';
+import SupaModel from './SupaModel';
 
-export default class User extends Model {
+export default class User extends SupaModel {
 
   id = null;
 
   name = null;
   email = null;
-
-  access_token = null;
-  refresh_token = null;
 
   created_at = null;
   updated_at = null;
@@ -18,22 +15,16 @@ export default class User extends Model {
     Object.assign(this, data);
   }
 
-  async store(current = false) {
-    if (current) {
-      return this.storeModel("user");
-    }
-    return this.storeModel(`users/${this.id}`);
+  async store() {
+    return await this.storeModel(`users/${this.id}`);
   }
 
-  static async restore(id=null) {
-    if (id) {
-      return Model.restoreModel(User, `users/${id}`);
-    }
-    return Model.restoreModel(User, "user");
+  static async restore(id) {
+    return await SupaModel.restoreModel(User, `users/${id}`);
   }
 
   static async load(id) {
-    return Model.loadModel(User, "users", id);
+    return await SupaModel.loadModel(User, "users", { id: id });
   }
 
   async save() {
@@ -42,21 +33,20 @@ export default class User extends Model {
 
   static async google() {
     const Supabase = useSupabaseClient();
-    const { data, error } = await Supabase.auth.signIn({ 
+    const { data: auth, error } = await Supabase.auth.signIn({ 
       provider: 'google' 
     });
     if (error) {
       console.error("User.google", error);
+      return null;
     }
-    else if (data && data.user && data.session) {
-      console.log("User.google", data);
+    else if (auth && auth.user) {
+      console.log("User.google", auth);
       let user = new User();
-      user.id = data.user.id;
-      user.email = data.user.email;
-      user.created_at = data.user.created_at;
-      user.updated_at = data.user.updated_at;
-      user.access_token = data.session.access_token;
-      user.refresh_token = data.session.refresh_token;
+      user.id = auth.user.id;
+      user.email = auth.user.email;
+      user.created_at = auth.user.created_at;
+      user.updated_at = auth.user.updated_at;
       return user;
     }
     return null;
@@ -64,22 +54,21 @@ export default class User extends Model {
 
   static async login(email, password) {
     const Supabase = useSupabaseClient();
-    const { data, error } = await Supabase.auth.signInWithPassword({ 
+    const { data: auth, error } = await Supabase.auth.signInWithPassword({ 
       email: email, 
       password: password 
     });
     if (error) {
       console.error("User.login", error);
+      return null;
     }
-    else if (data && data.user && data.session) {
-      console.log("User.login", data);
+    else if (auth && auth.user) {
+      console.log("User.login", auth);
       let user = new User();
-      user.id = data.user.id;
-      user.email = data.user.email;
-      user.created_at = data.user.created_at;
-      user.updated_at = data.user.updated_at;
-      user.access_token = data.session.access_token;
-      user.refresh_token = data.session.refresh_token;
+      user.id = auth.user.id;
+      user.email = auth.user.email;
+      user.created_at = auth.user.created_at;
+      user.updated_at = auth.user.updated_at;
       return user;
     }
     return null;
@@ -87,23 +76,22 @@ export default class User extends Model {
 
   static async signup(email, password, name) {
     const Supabase = useSupabaseClient();
-    const { data, error } = await Supabase.auth.signUp({ 
+    const { data: auth, error } = await Supabase.auth.signUp({ 
       email: email, 
       password: password 
     });
     if (error) {
       console.error("User.signup", error);
+      return null;
     }
-    else if (data && data.user && data.session) {
-      console.log("User.signup", data);
+    else if (auth && auth.user) {
+      console.log("User.signup", auth);
       let user = new User();
-      user.id = data.user.id;
-      user.email = data.user.email;
+      user.id = auth.user.id;
+      user.email = auth.user.email;
       user.name = name;
-      user.created_at = data.user.created_at;
-      user.updated_at = data.user.updated_at;
-      user.access_token = data.session.access_token;
-      user.refresh_token = data.session.refresh_token;
+      user.created_at = auth.user.created_at;
+      user.updated_at = auth.user.updated_at;
       return user;
     }
     return null;
@@ -116,9 +104,11 @@ export default class User extends Model {
       
       const Supabase = useSupabaseClient();
       await Supabase.auth.signOut();
+      return true;
     }
     catch (error){
       console.error("User.logout", error);
+      return false;
     }
   }
 

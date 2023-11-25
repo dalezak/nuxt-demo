@@ -52,7 +52,7 @@ export class Storage {
     return null;
   }
 
-  async count(prefix, needle = "", haystack = null, filters = {}) {
+  async count(prefix, needle = "", haystack = null) {
     if (process.client) {
       let counts = 0;
       let keys = await this.keys(prefix);

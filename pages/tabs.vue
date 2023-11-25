@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header v-if="hasUser == false">
+    <ion-header v-if="isAuthenticated == false">
       <ion-toolbar>
         <ion-title>Nuxt</ion-title>
         <ion-buttons slot="primary">
@@ -9,12 +9,16 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-tabs v-if="hasUser">
+      <ion-tabs v-if="isAuthenticated">
         <ion-router-outlet></ion-router-outlet>
         <ion-tab-bar slot="bottom">
           <ion-tab-button tab="home" href="/home">
             <ion-icon :icon="ioniconsHome" />
             <ion-label>Home</ion-label>
+          </ion-tab-button>
+          <ion-tab-button tab="products" href="/products">
+            <ion-icon :icon="ioniconsShirtOutline" />
+            <ion-label>Products</ion-label>
           </ion-tab-button>
           <ion-tab-button tab="posts" href="/posts">
             <ion-icon :icon="ioniconsChatboxOutline" />
@@ -36,15 +40,14 @@
 <script setup>
 definePageMeta({
   alias: ['/'],
+  middleware: 'auth'
 })
 
 const route = useRoute();
-
-const userStore = useUserStore();
-const { hasUser } = storeToRefs(userStore);
+const isAuthenticated = useAuthenticated();
 
 onMounted(() => {
-  if (hasUser && route.path == "/") {
+  if (isAuthenticated && route.path == "/") {
     showPageHome();
   }
 })

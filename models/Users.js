@@ -1,22 +1,27 @@
-import Models from "./Models";
+import SupaModels from "./SupaModels";
 import User from "./User";
 
-export default class Users extends Models {
+export default class Users extends SupaModels {
 
   constructor(models = []) {
     super(User, models);
   }
 
   static async clear() {
-    return Models.clearModel("users");
+    return SupaModels.clearModel("users");
   }
 
-  static async load(limit = 10, after = null, search = "") {
-    let query = [];
+  static async load(limit = 10, offset = 0, search = "") {
+    let where = [];
     if (search && search.length > 0) {
-      query.push(["words", "array-contains-any", search.toLowerCase().split(" ")]);
+      where.push(["name", "ilike", search.toLowerCase()]);
     }
-    return Models.loadModels(Users, User, "users", "created:desc", limit, after, query);
+    return SupaModels.loadModels(Users, User, "users", { 
+      order: "created_at:desc", 
+      limit: limit, 
+      offset: offset, 
+      where: where
+    });
   }
 
 }

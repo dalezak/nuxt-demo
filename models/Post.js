@@ -1,6 +1,6 @@
-import Model from './Model';
+import SupaModel from './SupaModel';
 
-export default class Post extends Model {
+export default class Post extends SupaModel {
 
   id = null;
   
@@ -21,14 +21,11 @@ export default class Post extends Model {
   }
 
   static async restore(id) {
-    return Model.restoreModel(Post, `posts/${id}`);
+    return SupaModel.restoreModel(Post, `posts/${id}`);
   }
 
-  static async load({id}) {
-    if (id) {
-      return Model.loadModel(Post, "posts", id, "id");
-    }
-    return null;
+  static async load(id) {
+    return SupaModel.loadModel(Post, "posts", { id: id });
   }
 
   async save() {

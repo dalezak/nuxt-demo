@@ -12,6 +12,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: 'auth'
+})
+
 const userStore = useUserStore();
 const { userLogout } = userStore;
 

@@ -14,6 +14,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: 'auth'
+})
+
 const limit = 12;
 let offset = $ref(0);
 let count = $ref(0);
@@ -34,15 +38,13 @@ async function loadItems(_offset=0) {
         search: search
       },
       initialCache: false
-    })
-    console.log(`loadItems ${offset} to ${offset + limit}`, results);
+    });
+    console.log(`loadItems ${offset} to ${offset + limit}`, results.value);
     if (offset == 0) {
-      items = reactive(results);
+      items.splice(0);
     }
-    else {
-      items.push(...results);
-    }
-    count = items ? items.length : 0;
+    items.push(...results.value);
+    count = items.length;
     showToast(`Loaded ${count} items`);
   }
   catch (error) {

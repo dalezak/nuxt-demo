@@ -24,11 +24,7 @@ export const usePostStore = defineStore("posts", {
   actions: {
     async loadPosts({limit = 10, offset = 0, search = null}) {
       try {
-        let posts = await Posts.load({
-          limit: limit, 
-          offset: offset, 
-          search: search
-        });
+        let posts = await Posts.load(limit, offset, search);
         if (posts) {
           await posts.store();
         }
@@ -47,7 +43,7 @@ export const usePostStore = defineStore("posts", {
         return Promise.reject(error);
       }
     },
-    async loadPost({id}) {
+    async loadPost(id) {
       try {
         let post = await Post.load(id);
         if (post) {

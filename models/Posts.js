@@ -1,23 +1,27 @@
-import Models from "./Models";
+import SupaModels from "./SupaModels";
 import Post from "./Post";
 
-export default class Posts extends Models {
+export default class Posts extends SupaModels {
 
   constructor(models = []) {
     super(Post, models);
   }
 
   static async clear() {
-    return Models.clearModel("posts");
+    return SupaModels.clearModel("posts");
   }
 
-  static async load({limit = 10, offset = 0, search = ""}) {
-    let clauses = [];
-    let select = "*";
+  static async load(limit = 10, offset = 0, search = "") {
+    let where = [];
     if (search && search.length > 0) {
-      clauses.push(["title", "ilike", search.toLowerCase()]);
+      where.push(["title", "ilike", search.toLowerCase()]);
     }
-    return Models.loadModels(Posts, Post, "posts", "created_at:desc", limit, offset, clauses, select);
+    return SupaModels.loadModels(Posts, Post, "posts", {
+      sort: "created_at:desc", 
+      limit: limit, 
+      offset: offset, 
+      where: where
+    });
   }
 
 }

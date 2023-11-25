@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 
+import Users from "../models/Users";
 import User from "../models/User";
 
 export const useUserStore = defineStore("users", {
@@ -10,27 +11,30 @@ export const useUserStore = defineStore("users", {
     }
   },
   getters: {
-    hasUser(state) {
-      return state.user != null && state.user.email != null;
-    },
     getUser(state) {
       return state.user;
     }
   },
   actions: {
-    async userRestore() {
-      if (this.user) {
-        return Promise.resolve(this.user);
+    async loadUsers({limit = 10, offset = 0, search = null}) {
+      try {
+        let users = await Users.load(limit, offset, search);
+        if (users) {
+          await users.store();
+        }
+        if (offset > 0) {
+          if (this.users == null) {
+            this.users = [];
+          }
+          this.users = [...this.users, ...users];
+        }
+        else {
+          this.users = users;
+        }
+        return Promise.resolve(users);
       }
-      let user = await User.restore();
-      console.log("userRestore", user);
-      if (user) {
-        this.user = user;
-        return Promise.resolve(user);
-      }
-      else {
-        this.user = null;
-        return Promise.resolve(null);
+      catch (error) {
+        return Promise.reject(error);
       }
     },
     async googleSignin() {
@@ -45,41 +49,39 @@ export const useUserStore = defineStore("users", {
         return Promise.resolve(user);
       }
       catch (error) {
-        console.error("googleSignin", error);
+        console.error("UserStore.googleSignin", error);
         return Promise.reject(error);
       }
     },
     async userLogin({email, password}) {
       try {
-        console.log("userLogin", email, password);
+        console.log("UserStore.userLogin", email, password);
         let user = await User.login(email, password);
         if (user) {
-          user = await User.load(user.id);
-          user = await user.store(true);
+          await user.store();
         }
         this.user = user;
         return Promise.resolve(user);
       }
       catch (error) {
-        console.error("userLogin", error);
+        console.error("UserStore.userLogin", error);
         return Promise.reject(error);
       }
     },
-    async userSignup({email, password, name}) {
+    async userSignup({name, email, password}) {
       try {
-        console.log("userSignup", name, email, password);
+        console.log("UserStore.userSignup", name, email, password);
         let user = await User.signup(email, password, name);
         if (user) {
           user.name = name;
           user = await user.save();
-          user = await user.store(true);
-          user = await User.load(user.id);
+          user = await user.store();
         }
         this.user = user;
         return Promise.resolve(user);
       }
       catch (error) {
-        console.error("userSignup", error);
+        console.error("UserStore.userSignup", error);
         return Promise.reject(error);
       }
     },
@@ -90,7 +92,7 @@ export const useUserStore = defineStore("users", {
         return Promise.resolve();
       }
       catch (error) {
-        console.error("userLogout", error);
+        console.error("UserStore.userLogout", error);
         return Promise.reject(error);
       }
     }

@@ -19,6 +19,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: 'auth'
+})
+
 const limit = 12;
 let offset = $ref(0);
 let count = $ref(0);
