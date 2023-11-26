@@ -128,4 +128,18 @@ export default class User extends SupaModel {
     return false;
   }
 
+  static async updatePassword(password) {
+    const Supabase = useSupabaseClient();
+    const { data, error } = await Supabase.auth.updateUser({ password: password });
+    if (error) {
+      console.error("User.updatePassword", error);
+      return false;
+    }
+    else if (data) {
+      console.log("User.updatePassword", data);
+      return true;
+    }
+    return false;
+  }
+
 }

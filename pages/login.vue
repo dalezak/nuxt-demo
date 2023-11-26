@@ -2,7 +2,9 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-title>Nuxt</ion-title>
+        <ion-title v-if="isSignup">Signup</ion-title>
+        <ion-title v-else-if="isLogin">Login</ion-title>
+        <ion-title v-else-if="isReset">Reset Password</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
@@ -13,7 +15,10 @@
               <ion-card-header>
                 <ion-card-title v-if="isSignup">Welcome</ion-card-title>
                 <ion-card-title v-else-if="isLogin">Welcome back</ion-card-title>
-                <ion-card-title v-else-if="isReset">Reset password</ion-card-title>
+                <ion-card-title v-else-if="isReset">Forgot password</ion-card-title>
+                <ion-card-subtitle v-if="isSignup">Enter your name, email, and password</ion-card-subtitle>
+                <ion-card-subtitle v-else-if="isLogin">Enter your email and password</ion-card-subtitle>
+                <ion-card-subtitle v-else-if="isReset">Enter your email</ion-card-subtitle>
               </ion-card-header>
               <ion-item lines="inset" v-if="isSignup">
                 <ion-label position="floating">Name</ion-label>
@@ -39,9 +44,8 @@
             </ion-card>
             <ion-card class="ion-margin">
               <ion-card-content>
-                <ion-button fill="clear" @click="loginForm" v-if="isSignup">Already have an account?</ion-button>
-                <ion-button fill="clear" @click="loginForm" v-if="isReset">Back to login form?</ion-button>
-                <ion-button fill="clear" @click="signupForm" v-if="isLogin">Don't have an account yet?</ion-button>
+                <ion-button fill="clear" @click="loginForm" v-if="isSignup || isReset">Already have an account?</ion-button>
+                <ion-button fill="clear" @click="signupForm" v-if="isLogin || isReset">Don't have an account?</ion-button>
                 <ion-button fill="clear" @click="resetForm" v-if="isLogin">Forgot your password?</ion-button>
               </ion-card-content>
             </ion-card>

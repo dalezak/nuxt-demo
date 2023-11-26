@@ -105,6 +105,16 @@ export const useUserStore = defineStore("users", {
         console.error("UserStore.resetPassword", error);
         return Promise.reject(error);
       }
+    },
+    async updatePassword({password}) {
+      try {
+        await User.updatePassword(password);
+        return Promise.resolve();
+      }
+      catch (error) {
+        console.error("UserStore.updatePassword", error);
+        return Promise.reject(error);
+      }
     }
   }
 });
