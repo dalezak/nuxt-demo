@@ -1,4 +1,4 @@
-export const useAuthenticated = () => {
+export function useAuthenticated() {
   const user = useSupabaseUser();
-  return user.value && user.value.id != null;
+  return user && user.value;
 }

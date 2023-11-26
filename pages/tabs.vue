@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header v-if="isAuthenticated == false">
+    <ion-header v-if="!isAuthenticated">
       <ion-toolbar>
         <ion-title>Nuxt</ion-title>
         <ion-buttons slot="primary">
@@ -31,7 +31,24 @@
         </ion-tab-bar>
       </ion-tabs>
       <template v-else>
-        <h1>Welcome</h1>
+        <ion-grid>
+          <ion-row class="ion-justify-content-center">
+            <ion-col size="12" size-sm="12" size-md="10" size-lg="8" size-xl="6">
+              <ion-card class="ion-margin">
+                <ion-card-header>
+                  <ion-card-title>{{ title }}</ion-card-title>
+                  <ion-card-subtitle>{{ subtitle }}</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>{{ description }}</ion-card-content>
+              </ion-card>
+              <ion-card class="ion-margin">
+                <ion-card-content>
+                  <ion-button fill="clear" @click="showPageLogin">Login to get started</ion-button>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </template>
     </ion-content>
   </ion-page>
@@ -43,10 +60,15 @@ definePageMeta({
   middleware: 'auth'
 })
 
+const title = "Welcome";
+const subtitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
 const route = useRoute();
 const isAuthenticated = useAuthenticated();
 
 onMounted(() => {
+  console.log("isAuthenticated", isAuthenticated);
   if (isAuthenticated && route.path == "/") {
     showPageHome();
   }
