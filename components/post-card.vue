@@ -2,15 +2,10 @@
   <transition appear name="fade" mode="out-in">
     <ion-card class="ion-margin" :button="loading==false">
       <ion-card-header>
-        <ion-card-title>
-          <ion-skeleton-text :animated="true" v-if="loading"></ion-skeleton-text>
-          <span v-else-if="post">{{post.title}}</span>
-        </ion-card-title>
+        <ion-card-title v-if="post.title">{{ post.title }}</ion-card-title>
+        <ion-card-subtitle v-if="post.body">{{ truncateText( post.body, 100) }}</ion-card-subtitle>
       </ion-card-header>
-      <ion-button fill="clear" :disabled="true" class="ion-float-right" v-if="loading">
-        <ion-skeleton-text :animated="true" style="width: 40px"></ion-skeleton-text>
-      </ion-button>
-      <ion-button fill="clear" title="Share" class="ion-float-right" @click="sharePost" v-else-if="post">
+      <ion-button fill="clear" title="Share" class="ion-float-right" @click="sharePost">
         <ion-icon :icon="ioniconsShareSocialOutline"></ion-icon>
       </ion-button>
     </ion-card>
@@ -21,10 +16,6 @@
 const props = defineProps({
   post: {
     type: Object
-  },
-  loading: {
-    type: Boolean,
-    default: false
   }
 });
 
