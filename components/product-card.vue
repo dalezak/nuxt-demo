@@ -1,6 +1,6 @@
 <template>
   <transition appear name="fade" mode="out-in">
-    <ion-card class="ion-margin" :button="loading==false">
+    <ion-card class="ion-margin" button="true">
       <ion-card-header>
         <ion-card-title v-if="product.title">{{product.title}}</ion-card-title>
         <ion-card-subtitle v-if="product.description">{{ truncateText(product.description, 100) }}</ion-card-subtitle>

@@ -22,7 +22,7 @@ export default class SupaModel extends Model {
   static async loadModel(modelClass, table, where = {}) {
     const Supabase = useSupabaseClient();
     let query = Supabase.from(table).select("*");
-    for (let key in Object.keys(where)) {
+    for (let key of Object.keys(where)) {
       query = query.eq(key, where[key]);
     }
     let { data: row, error } = await query.single();

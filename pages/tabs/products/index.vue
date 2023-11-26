@@ -12,7 +12,7 @@
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
       <grid-cards :loading="loading" :limit="limit" :count="count" :search="search" label="products" @more="searchProducts(offset+limit)">
-        <product-card :user="getUser" :product="product" @share="shareProduct(product)" @click="showProductDetails(product.id)" :key="product.id" v-for="product of getProducts"></product-card>
+        <product-card :user="getUser" :product="product" @share="shareProduct(product)" @click="showPageProduct(product.id)" :key="product.id" v-for="product of getProducts"></product-card>
       </grid-cards>
     </ion-content>
   </ion-page>

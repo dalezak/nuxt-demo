@@ -12,7 +12,7 @@
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
       <grid-cards :loading="loading" :limit="limit" :count="count" :search="search" label="posts" @more="searchPosts(offset+limit)">
-        <post-card :user="getUser" :post="post" @share="sharePost(post)" @click="showPostDetails(post.id)" :key="post.id" v-for="post of getPosts"></post-card>
+        <post-card :user="getUser" :post="post" @share="sharePost(post)" @click="showPagePost(post.id)" :key="post.id" v-for="post of getPosts"></post-card>
       </grid-cards>
     </ion-content>
   </ion-page>

@@ -74,7 +74,7 @@ export default class RestModel extends Model {
     for (let key in params) {
       urlPath.searchParams.append(key, params[key]);
     }
-    return urlPath;
+    return urlPath.href;
   }
 
 }

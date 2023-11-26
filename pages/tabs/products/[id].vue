@@ -3,22 +3,26 @@
     <ion-header :translucent="true">
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button default-href="/posts"></ion-back-button>
+          <ion-back-button default-href="/products"></ion-back-button>
         </ion-buttons>
-        <ion-title>Posts</ion-title>
+        <ion-title>Products</ion-title>
         <ion-buttons slot="primary">
-          <ion-button @click="sharePost(post)">
+          <ion-button @click="shareProduct(product)" v-if="product">
             <ion-icon slot="icon-only" :icon="ioniconsShareOutline"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
-      <ion-card class="ion-margin" v-if="post">
+      <ion-card class="ion-margin" v-if="product">
         <ion-card-header>
-          <ion-card-title>{{post.title}}</ion-card-title>
+          <ion-card-title>{{product.title}}</ion-card-title>
         </ion-card-header>
-        <ion-card-content>{{post.body}}</ion-card-content>
+        <ion-card-content>{{product.description}}</ion-card-content>
+        <ion-card-content>
+          <ion-chip>Price: ${{product.price}}</ion-chip>
+            <ion-chip>Rating: {{product.rating.rate}}</ion-chip>
+        </ion-card-content>
       </ion-card>
     </ion-content>
   </ion-page>
@@ -27,25 +31,26 @@
 <script setup>
 definePageMeta({
   middleware: 'auth',
-  title: 'Post'
+  title: 'Product'
 })
 
 const route = useRoute();
 
-const { getPosts } = storeToRefs(postStore);
-const { loadPost } = postStore;
+const productStore = useProductStore();
+const { product } = storeToRefs(productStore);
+const { loadProduct } = productStore;
 
-async function sharePost(post) {
-  console.log("sharePost", post);
+async function shareProduct(product) {
+  console.log("shareProduct", product);
 }
 
 try {
-  await this.loadPost({ 
+  await loadProduct({ 
     id: route.params.id
   });
 }
 catch (error) {
-  showWarning("Problem Loading Post", error.message);
+  showWarning("Problem Loading Product", error.message);
 }
 </script>
 
