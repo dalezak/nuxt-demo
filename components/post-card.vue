@@ -3,11 +3,11 @@
     <ion-card class="ion-margin" button="true">
       <ion-card-header>
         <ion-card-title v-if="post.title">{{ post.title }}</ion-card-title>
-        <ion-card-subtitle v-if="post.body">{{ truncateText( post.body, 100) }}</ion-card-subtitle>
+        <ion-card-subtitle v-if="post.body">{{ textTruncate( post.body, 100) }}</ion-card-subtitle>
       </ion-card-header>
-      <ion-button fill="clear" title="Share" class="ion-float-right" @click="sharePost">
-        <ion-icon :icon="ioniconsShareSocialOutline"></ion-icon>
-      </ion-button>
+      <ion-card-content>
+        <share-button :title="post.title" :description="post.description" css="ion-float-right"></share-button>
+      </ion-card-content>
     </ion-card>
   </transition>
 </template>

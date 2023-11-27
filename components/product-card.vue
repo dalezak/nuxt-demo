@@ -3,11 +3,13 @@
     <ion-card class="ion-margin" button="true">
       <ion-card-header>
         <ion-card-title v-if="product.title">{{product.title}}</ion-card-title>
-        <ion-card-subtitle v-if="product.description">{{ truncateText(product.description, 100) }}</ion-card-subtitle>
+        <ion-card-subtitle v-if="product.description">{{ textTruncate(product.description, 100) }}</ion-card-subtitle>
       </ion-card-header>
-      <ion-button fill="clear" title="Share" class="ion-float-right" @click="shareProduct">
-        <ion-icon :icon="ioniconsShareSocialOutline"></ion-icon>
-      </ion-button>
+      <ion-card-content>
+        <ion-chip v-if="product.price">{{ textMoney(product.price) }}</ion-chip>
+        <ion-chip v-if="product.rating">{{ textRating(product.rating.rate, 5) }}</ion-chip>
+        <share-button :title="product.title" :description="product.description" :image="product.image" css="ion-float-right"></share-button>
+      </ion-card-content>
     </ion-card>
   </transition>
 </template>
@@ -18,15 +20,6 @@ const props = defineProps({
     type: Object
   }
 });
-
-const emit = defineEmits([
-  "share"
-])
-
-function shareProduct(event) {
-  event.stopPropagation();
-  emit('share', props.product);
-}
 </script>
 
 <style scoped lang="scss">

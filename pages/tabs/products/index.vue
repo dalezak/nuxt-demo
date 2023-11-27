@@ -64,14 +64,6 @@ async function showProductForm() {
   console.log("showProductForm");
 }
 
-function showProductDetails(id) {
-  console.log("showProductDetails", id);
-}
-
-async function shareProduct(product) {
-  console.log("shareProduct", product);
-}
-
 searchChanged();
 </script>
 
