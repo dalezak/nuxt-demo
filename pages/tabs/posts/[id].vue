@@ -7,7 +7,7 @@
         </ion-buttons>
         <ion-title>Posts</ion-title>
         <ion-buttons slot="primary" v-if="post">
-          <ion-button @click="sharePost(post)">
+          <ion-button @click="sharePost">
             <ion-icon slot="icon-only" :icon="ioniconsShareOutline"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -36,8 +36,11 @@ const postStore = usePostStore();
 const { post } = storeToRefs(postStore);
 const { loadPost } = postStore;
 
-async function sharePost(post) {
-  console.log("sharePost", post);
+async function sharePost(event) {
+  showPopoverShare(event, {
+    title: post.title,
+    description: post.body
+  })
 }
 
 try {

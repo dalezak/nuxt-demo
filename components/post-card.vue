@@ -18,15 +18,6 @@ const props = defineProps({
     type: Object
   }
 });
-
-const emit = defineEmits([
-  "share"
-])
-
-function sharePost(event) {
-  event.stopPropagation();
-  emit('share', props.post);
-}
 </script>
 
 <style scoped lang="scss">

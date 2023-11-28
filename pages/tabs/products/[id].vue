@@ -7,7 +7,7 @@
         </ion-buttons>
         <ion-title>Products</ion-title>
         <ion-buttons slot="primary">
-          <ion-button @click="shareProduct(product)" v-if="product">
+          <ion-button @click="shareProduct" v-if="product">
             <ion-icon slot="icon-only" :icon="ioniconsShareOutline"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -40,8 +40,12 @@ const productStore = useProductStore();
 const { product } = storeToRefs(productStore);
 const { loadProduct } = productStore;
 
-async function shareProduct(product) {
-  console.log("shareProduct", product);
+async function shareProduct(event) {
+  showPopoverShare(event, {
+    title: product.title,
+    description: product.body,
+    image: product.image
+  })
 }
 
 try {

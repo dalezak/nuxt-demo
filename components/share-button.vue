@@ -1,32 +1,18 @@
 <template>
-  <ion-button :id="uid" fill="clear" title="Share" :class="css" @click="onShare">
+  <ion-button fill="clear" title="Share" :class="css" @click="onShare">
     <ion-icon :icon="ioniconsShareSocialOutline"></ion-icon>
   </ion-button>
-  <ion-popover :trigger="uid" side="bottom" alignment="center" dismiss-on-select="true">
-    <ion-content>
-      <ion-list>
-        <ion-list-header>
-          <ion-label>Share via</ion-label>
-        </ion-list-header>
-        <ion-item button="true" detail="false" @click="shareTwitter(title, description, url)">Twitter</ion-item>
-        <ion-item button="true" detail="false" @click="shareFacebook(title, description, url)">Facebook</ion-item>
-        <ion-item button="true" detail="false" @click="shareLinkedIn(title, description, url)">LinkedIn</ion-item>
-        <ion-item button="true" detail="false" @click="shareEmail(title, description, url)">Email</ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-popover>
 </template>
 
 <script setup>
-const uid = getCurrentInstance().uid;
-
 const props = defineProps({
   css: {
     type: String,
-    default: "ion-float-right"
+    default: ""
   },
   title: {
-    type: String
+    type: String,
+    required: true
   },
   description: {
     type: String,
@@ -39,11 +25,32 @@ const props = defineProps({
   image: {
     type: String,
     default: ""
+  },
+  facebook: {
+    type: Boolean,
+    default: true
+  },
+  twitter: {
+    type: Boolean,
+    default: true
+  },
+  linkedin: {
+    type: Boolean,
+    default: true
+  },
+  pinterest: {
+    type: Boolean,
+    default: true
+  },
+  email: {
+    type: Boolean,
+    default: true
   }
 })
 
 function onShare(event) {
   event.stopPropagation();
+  showPopoverShare(event, props);
 }
 </script>
 
