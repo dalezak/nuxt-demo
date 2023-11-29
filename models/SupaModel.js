@@ -74,17 +74,21 @@ export default class SupaModel extends Model {
   }
 
   async deleteModel(modelClass, table, where = {}) {
-    const Supabase = useSupabaseClient();
-    let query = Supabase.from(table);
-    for (let key in Object.keys(where)) {
-      query = query.eq(key, where[key]);
+    const keys = where ? Object.keys(where) : [];
+    if (keys && keys.length > 0) {
+      const Supabase = useSupabaseClient();
+      let query = Supabase.from(table);
+      for (let key in keys) {
+        query = query.eq(key, where[key]);
+      }
+      const { error } = await query.delete();
+      if (error) {
+        console.log("SupaModel.deleteModel", error);
+        return false;
+      }
+      return true;
     }
-    const { error } = await query.delete();
-    if (error) {
-      console.log("SupaModel.deleteModel", error);
-      return false;
-    }
-    return true;
+    return false;
   }
 
 }

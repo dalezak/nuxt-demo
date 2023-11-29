@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header v-if="!isAuthenticated">
+    <ion-header v-if="!currentUser">
       <ion-toolbar>
         <ion-title>Nuxt</ion-title>
         <ion-buttons slot="primary">
@@ -9,7 +9,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-tabs v-if="isAuthenticated">
+      <ion-tabs v-if="currentUser">
         <ion-router-outlet></ion-router-outlet>
         <ion-tab-bar slot="bottom">
           <ion-tab-button tab="home" href="/home">
@@ -65,11 +65,10 @@ const subtitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed d
 const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
 const route = useRoute();
-const isAuthenticated = useAuthenticated();
+const currentUser = useCurrentUser();
 
 onMounted(() => {
-  console.log("isAuthenticated", isAuthenticated);
-  if (isAuthenticated && route.path == "/") {
+  if (currentUser && route.path == "/") {
     showPageHome();
   }
 })

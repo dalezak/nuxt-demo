@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-title>Posts</ion-title>
         <ion-buttons slot="primary">
-          <ion-button color="primary" @click="showPostForm">
+          <ion-button color="primary" @click="showPagePostNew">
             <ion-icon slot="icon-only" :icon="ioniconsAdd"></ion-icon>
           </ion-button>
         </ion-buttons>

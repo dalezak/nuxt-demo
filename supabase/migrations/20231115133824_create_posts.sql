@@ -1,5 +1,5 @@
 create table "public"."posts" (
-    "id" uuid not null,
+    "id" uuid not null default uuid_generate_v4(),
     "title" text not null,
     "body" text not null,
     "user_id" uuid not null,

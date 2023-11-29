@@ -46,14 +46,16 @@ export default class Model {
   }
 
   getAttributes() {
-    return Object.keys(this).filter(key => key != "id" && !key.endsWith("_count") && !key.endsWith("_at"));
+    return Object.keys(this).filter(key => key != "id" && key.endsWith("_count") == false && key.endsWith("_at") == false);
   }
 
   getValues(attributes=[]) {
     let values = {}
     let keys = Object.keys(this).filter(key => attributes.includes(key));
     for (let key of keys) {
-      values[key] = this[key];
+      if (this[key] != null) {
+        values[key] = this[key];
+      }
     }
     return values;
   }

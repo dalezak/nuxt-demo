@@ -1,11 +1,11 @@
 export default defineNuxtRouteMiddleware(async(to, from) => {
-  const isAuthenticated = useAuthenticated();
-  console.log(`auth from ${from.path} to ${to.path}`, isAuthenticated);
+  const currentUser = useCurrentUser();
+  console.log(`auth from ${from.path} to ${to.path}`, currentUser);
   if (to.path == '/') {
     return;
   }
   else if (to.path == '/login') {
-    if (isAuthenticated) {
+    if (currentUser) {
       return navigateTo('/');
     }
     else {
@@ -15,7 +15,7 @@ export default defineNuxtRouteMiddleware(async(to, from) => {
   else if (to.path == '/logout') {
     return;
   }
-  else if (isAuthenticated) {
+  else if (currentUser) {
     return;
   }
   else {

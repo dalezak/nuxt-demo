@@ -21,16 +21,13 @@
                 <ion-card-subtitle v-else-if="isReset">Enter your email</ion-card-subtitle>
               </ion-card-header>
               <ion-item lines="inset" v-if="isSignup">
-                <ion-label position="floating">Name</ion-label>
-                <ion-input aria-label="Name" ref="nameInput" v-model="name" type="text" :required="isSignup" v-on:keyup.enter="onEnter"></ion-input>
+                <ion-input label="Name" label-placement="floating" ref="nameInput" v-model="name" type="text" :required="isSignup" v-on:keyup.enter="onEnter"></ion-input>
               </ion-item>
               <ion-item lines="inset" v-if="isSignup || isLogin || isReset">
-                <ion-label position="floating">Email</ion-label>
-                <ion-input aria-label="Email" ref="emailInput" v-model="email" type="text" required v-on:keyup.enter="onEnter"></ion-input>
+                <ion-input label="Email" label-placement="floating" ref="emailInput" v-model="email" type="text" required v-on:keyup.enter="onEnter"></ion-input>
               </ion-item>
               <ion-item lines="inset" v-if="isSignup || isLogin">
-                <ion-label position="floating">Password</ion-label>
-                <ion-input aria-label="Password" ref="passwordInput" v-model="password" type="password" required v-on:keyup.enter="onEnter"></ion-input>
+                <ion-input label="Password" label-placement="floating" ref="passwordInput" v-model="password" type="password" :required="isSignup || isLogin" v-on:keyup.enter="onEnter"></ion-input>
               </ion-item>
               <ion-card-content>
                 <ion-row>
@@ -62,13 +59,13 @@ definePageMeta({
 })
 
 let name = $ref("");
-let nameInput = $ref("");
+let nameInput = $ref(null);
 
 let email = $ref("");
-let emailInput = $ref("");
+let emailInput = $ref(null);
 
 let password = $ref("");
-let passwordInput = $ref("");
+let passwordInput = $ref(null);
 
 let form = $ref("login");
 
@@ -92,30 +89,15 @@ function resetForm() {
 }
 
 function hasName() {
-  if (name.length == 0) {
-    showToast("Please enter your name");
-    setFocus(nameInput);
-    return false;
-  }
-  return true;
+  return hasInput(nameInput, name, "Please enter your name");
 }
 
 function hasEmail() {
-  if (email.length == 0) {
-    showToast("Please enter your email");
-    setFocus(emailInput);
-    return false;
-  }
-  return true;
+  return hasInput(emailInput, email, "Please enter your email");
 }
 
 function hasPassword() {
-  if (password.length == 0) {
-    showToast("Please enter your password");
-    setFocus(passwordInput);
-    return false;
-  }
-  return true;
+  return hasInput(passwordInput, password, "Please enter your password");
 }
 
 function onEnter() {

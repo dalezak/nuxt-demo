@@ -57,12 +57,13 @@ export const usePostStore = defineStore("posts", {
         return Promise.reject(error);
       }
     },
-    async savePost({ title, body, image }) {
+    async savePost({ title, body, image, user_id }) {
       try {
         let post = await new Post({
           title: title,
           body: body,
-          image: image
+          image: image,
+          user_id: user_id
         }).save();
         if (post) {
           await post.store();

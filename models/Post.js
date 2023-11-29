@@ -3,6 +3,7 @@ import SupaModel from './SupaModel';
 export default class Post extends SupaModel {
 
   id = null;
+  user_id = null;
   
   title = null;
   body = null;
@@ -29,8 +30,7 @@ export default class Post extends SupaModel {
   }
 
   async save() {
-    let attributes = this.getAttributes();
-    return this.saveModel(Post, "posts", attributes);
+    return this.saveModel(Post, "posts", ["id", "user_id", "title", "body", "image"], ["id"]);
   }
 
 }
