@@ -29,4 +29,10 @@ export default class Product extends RestModel {
     return await RestModel.loadModel(Product, url, params);
   }
 
+  async save() {
+    const values = this.getValues(["title", "description", "image", "price", "category"]);
+    const url = this.id != null ? `https://fakestoreapi.com/products/${this.id}` : `https://fakestoreapi.com/products`;
+    return await this.saveModel(Product, url, values);
+  }
+
 }

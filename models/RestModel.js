@@ -37,10 +37,11 @@ export default class RestModel extends Model {
     return null;
   }
 
-  async saveModel(modelClass, url, body = {}) {
+  async saveModel(modelClass, url, values = {}) {
+    const method = this.id != null ? 'put' : 'post';
     const { error, data: response } = await useFetch(url, {
-      method: 'post',
-      body: body
+      method: method,
+      body: values
     });
     if (error.value) {
       console.error("RestModel.saveModel", error.value);

@@ -51,6 +51,9 @@ export default class Model {
 
   getValues(attributes=[]) {
     let values = {}
+    if (attributes == null || attributes.length == 0) {
+      attributes = this.getAttributes();
+    }
     let keys = Object.keys(this).filter(key => attributes.includes(key));
     for (let key of keys) {
       if (this[key] != null) {

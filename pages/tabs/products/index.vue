@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-title>Products</ion-title>
         <ion-buttons slot="primary">
-          <ion-button color="primary" @click="showProductForm">
+          <ion-button color="primary" @click="showPageProductNew">
             <ion-icon slot="icon-only" :icon="ioniconsAdd"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -58,10 +58,6 @@ async function searchProducts(_offset = 0) {
   finally {
     loading = false;
   }
-}
-
-async function showProductForm() {
-  console.log("showProductForm");
 }
 
 searchChanged();

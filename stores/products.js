@@ -45,7 +45,6 @@ export const useProductStore = defineStore("products", {
     },
     async loadProduct({id}) {
       try {
-        console.log("Store.loadProduct", id);
         let product = await Product.load(id);
         if (product) {
           await product.store();
@@ -57,11 +56,13 @@ export const useProductStore = defineStore("products", {
         return Promise.reject(error);
       }
     },
-    async saveProduct({ title, body, image }) {
+    async saveProduct({ title, description, category, price, image }) {
       try {
         let product = await new Product({
           title: title,
-          body: body,
+          description: description,
+          category: category,
+          price: price,
           image: image
         }).save();
         if (product) {
