@@ -33,7 +33,7 @@ const props = defineProps({
   gutter: {
     type: Object,
     default: () => ({
-      default: "10px"
+      default: "0px"
     })
   },
   limit: {

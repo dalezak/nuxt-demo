@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
+    <ion-header :translucent="true" v-if="isMobile">
       <ion-toolbar>
         <ion-title>Products</ion-title>
         <ion-buttons slot="primary">
@@ -11,6 +11,25 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
+      <ion-card>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-breadcrumbs>
+                <ion-breadcrumb href="/products">Products</ion-breadcrumb>
+              </ion-breadcrumbs>
+            </ion-col>
+            <ion-col size="6" size-md="4" size-lg="3">
+              <ion-searchbar type="search" :value="search" @ionInput="searchProducts(0)"></ion-searchbar>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card>
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button @click="showPageProductNew">
+          <ion-icon :icon="ioniconsAdd"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
       <grid-cards :loading="loading" :limit="limit" :count="count" :search="search" label="products" @more="searchProducts(offset+limit)">
         <product-card :user="getUser" :product="product" @share="shareProduct(product)" @click="showPageProduct(product.id)" :key="product.id" v-for="product of getProducts"></product-card>
       </grid-cards>
@@ -23,10 +42,14 @@ definePageMeta({
   middleware: 'auth'
 })
 
+const { isMobile } = usePlatform();
+
+const route = useRoute();
+
 const limit = 12;
 let offset = $ref(0);
 let count = $ref(0);
-let search = $ref("");
+let search = $ref(route.query.search);
 let loading = $ref(false);
 
 const userStore = useUserStore();
@@ -64,5 +87,13 @@ searchChanged();
 </script>
 
 <style scoped lang="scss">
-
+.sc-ion-searchbar-md-h {
+  --box-shadow: none !important;
+  border-radius: 5px !important;
+  border: 1px solid var(--ion-color-light) !important;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-inline-start: 0px;
+  padding-inline-end: 0px;
+}
 </style>

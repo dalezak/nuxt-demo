@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header>
+    <ion-header v-if="isMobile">
       <ion-toolbar>
         <ion-title>Home</ion-title>
       </ion-toolbar>
@@ -15,8 +15,10 @@
 
 <script setup>
 definePageMeta({
-  middleware: 'auth'
+  middleware: 'auth',
 })
+
+const { isMobile } = usePlatform();
 
 const limit = 12;
 let offset = $ref(0);

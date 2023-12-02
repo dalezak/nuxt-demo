@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     enabled: true 
   },
   css: [
-    '@/assets/css/theme.css',
+    '@/assets/css/themes/default-white.css',
+    '@/assets/css/themes/default-dark.css',
     '@/assets/css/transition.css'
   ],
   modules: [
@@ -16,6 +17,7 @@ export default defineNuxtConfig({
     '@nuxtjs/device',
     '@nuxtjs/supabase',
     '@vue-macros/nuxt',
+    'nuxt-viewport',
     // 'cookie-universal-nuxt'
   ],
   plugins: [
@@ -54,5 +56,20 @@ export default defineNuxtConfig({
       callback: '/confirm',
       exclude: [],
     }
+  },
+  viewport: {
+    breakpoints: {
+      xs: 320,
+      sm: 576,
+      md: 768,
+      lg: 992,
+      xl: 1200
+    },
+    defaultBreakpoints: {
+      desktop: 'lg',
+      mobile: 'sm',
+      tablet: 'md',
+    },
+    fallbackBreakpoint: 'lg'
   }
 })

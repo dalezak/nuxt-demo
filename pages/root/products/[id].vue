@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
+    <ion-header :translucent="true" v-if="isMobile">
       <ion-toolbar>
         <ion-buttons slot="start">
           <ion-back-button default-href="/products"></ion-back-button>
@@ -14,6 +14,19 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
+      <ion-card>
+        <ion-card-content>
+          <ion-breadcrumbs>
+            <ion-breadcrumb href="/products">Products</ion-breadcrumb>
+            <ion-breadcrumb :href="route.path">Product</ion-breadcrumb>
+          </ion-breadcrumbs>
+        </ion-card-content>
+      </ion-card>
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button @click="shareProduct">
+          <ion-icon :icon="ioniconsShareOutline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
       <ion-card class="ion-margin" v-if="product">
         <ion-card-header>
           <ion-card-title>{{product.title}}</ion-card-title>
@@ -33,6 +46,8 @@ definePageMeta({
   middleware: 'auth',
   title: 'Product'
 })
+
+const { isMobile } = usePlatform();
 
 const route = useRoute();
 

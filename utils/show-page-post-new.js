@@ -1,4 +1,4 @@
-import PostNew from '~/pages/tabs/posts/new.vue';
+import PostNew from '~/pages/root/posts/new.vue';
 export default async function () {
   if (process.client) {
     return await showModal(PostNew);
