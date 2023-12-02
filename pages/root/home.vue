@@ -47,7 +47,6 @@ async function loadItems(_offset=0) {
     }
     items.push(...results.value);
     count = items.length;
-    showToast(`Loaded ${count} items`);
   }
   catch (error) {
     console.error("loadItems", error);
