@@ -14,14 +14,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
-      <ion-card>
-        <ion-card-content>
-          <ion-breadcrumbs>
-            <ion-breadcrumb href="/products">Products</ion-breadcrumb>
-            <ion-breadcrumb :href="route.path">Product</ion-breadcrumb>
-          </ion-breadcrumbs>
-        </ion-card-content>
-      </ion-card>
+      <top-bar :breadcrumbs="breadcrumbs"></top-bar>
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button @click="shareProduct">
           <ion-icon :icon="ioniconsShareOutline"></ion-icon>
@@ -46,10 +39,22 @@ definePageMeta({
   middleware: 'auth',
   title: 'Product'
 })
-
 const { isMobile } = usePlatform();
 
-const route = useRoute();
+const { params } = useRoute();
+
+const breadcrumbs = [
+  {
+    name: "products",
+    label: "Products",
+    path: "/products"
+  },
+  {
+    name: "product",
+    label: "Product",
+    path: `/products/${params.id}`
+  }
+];
 
 const productStore = useProductStore();
 const { product } = storeToRefs(productStore);
@@ -65,7 +70,7 @@ async function shareProduct(event) {
 
 try {
   await loadProduct({ 
-    id: route.params.id
+    id: params.id
   });
 }
 catch (error) {

@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
+    <ion-header :translucent="true" v-if="isMobile">
       <ion-toolbar>
         <ion-buttons slot="start">
           <ion-back-button default-href="/posts"></ion-back-button>
@@ -14,6 +14,12 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
+      <top-bar :breadcrumbs="breadcrumbs"></top-bar>
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button @click="sharePost">
+          <ion-icon :icon="ioniconsShareOutline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
       <ion-card class="ion-margin" v-if="post">
         <ion-card-header>
           <ion-card-title v-if="post.title">{{post.title}}</ion-card-title>
@@ -30,7 +36,22 @@ definePageMeta({
   title: 'Post'
 })
 
-const route = useRoute();
+const { isMobile } = usePlatform();
+
+const { params } = useRoute();
+
+const breadcrumbs = [
+  {
+    name: "posts",
+    label: "Posts",
+    path: "/posts"
+  },
+  {
+    name: "post",
+    label: "Post",
+    path: `/posts/${params.id}`
+  }
+];
 
 const postStore = usePostStore();
 const { post } = storeToRefs(postStore);
@@ -45,7 +66,7 @@ async function sharePost(event) {
 
 try {
   await loadPost({ 
-    id: route.params.id
+    id: params.id
   });
 }
 catch (error) {

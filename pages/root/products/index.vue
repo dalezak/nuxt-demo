@@ -11,20 +11,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
-      <ion-card>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <ion-breadcrumbs>
-                <ion-breadcrumb href="/products">Products</ion-breadcrumb>
-              </ion-breadcrumbs>
-            </ion-col>
-            <ion-col size="6" size-md="4" size-lg="3">
-              <ion-searchbar type="search" :value="search" @ionInput="searchProducts(0)"></ion-searchbar>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card>
+      <top-bar :search="search" :breadcrumbs="breadcrumbs" @search="searchProducts(0)"></top-bar>
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button @click="showPageProductNew">
           <ion-icon :icon="ioniconsAdd"></ion-icon>
@@ -52,6 +39,14 @@ let count = $ref(0);
 let search = $ref(route.query.search);
 let loading = $ref(false);
 
+const breadcrumbs = [
+  {
+    name: "products",
+    label: "Products",
+    path: "/products"
+  }
+];
+
 const userStore = useUserStore();
 const productStore = useProductStore();
 
@@ -65,6 +60,7 @@ function searchChanged(_search) {
 }
 
 async function searchProducts(_offset = 0) {
+  console.log("searchProducts");
   try {
     loading = true;
     offset = _offset;
@@ -87,13 +83,4 @@ searchChanged();
 </script>
 
 <style scoped lang="scss">
-.sc-ion-searchbar-md-h {
-  --box-shadow: none !important;
-  border-radius: 5px !important;
-  border: 1px solid var(--ion-color-light) !important;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-inline-start: 0px;
-  padding-inline-end: 0px;
-}
 </style>

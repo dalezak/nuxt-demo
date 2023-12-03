@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
+    <ion-header :translucent="true" v-if="isMobile">
       <ion-toolbar>
         <ion-title>Posts</ion-title>
         <ion-buttons slot="primary">
@@ -11,6 +11,12 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
+      <top-bar :search="search" :breadcrumbs="breadcrumbs" @search="searchPosts(0)"></top-bar>
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button @click="showPageProductNew">
+          <ion-icon :icon="ioniconsAdd"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
       <grid-cards :loading="loading" :limit="limit" :count="count" :search="search" label="posts" @more="searchPosts(offset+limit)">
         <post-card :user="getUser" :post="post" @share="sharePost(post)" @click="showPagePost(post.id)" :key="post.id" v-for="post of getPosts"></post-card>
       </grid-cards>
@@ -22,6 +28,16 @@
 definePageMeta({
   middleware: 'auth'
 })
+
+const { isMobile } = usePlatform();
+
+const breadcrumbs = [
+  {
+    name: "posts",
+    label: "Posts",
+    path: "/posts"
+  }
+];
 
 const limit = 12;
 let offset = $ref(0);
