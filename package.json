@@ -19,7 +19,7 @@
     "@snaplet/copycat": "^1.0.0-rc.1",
     "@vue-macros/nuxt": "^1.9.6",
     "eslint-plugin-vue": "^9.18.1",
-    "nuxt": "^3.8.1",
+    "nuxt": "^3.8.2",
     "nuxt-viewport": "^2.0.6",
     "sass": "^1.69.5",
     "supabase": "^1.110.1",

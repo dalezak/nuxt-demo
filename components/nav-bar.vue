@@ -5,8 +5,8 @@
       <ion-button @click="showPage(link.path, false)" :title="link.label" :key="link.name" v-for="link of links">{{ link.label }}</ion-button>
     </ion-buttons>
     <ion-buttons slot="end" v-else>
-      <ion-button href="/about" title="About">About</ion-button>
-      <ion-button href="/login" title="Login">Login</ion-button>
+      <ion-button @click="showPageAbout" title="About">About</ion-button>
+      <ion-button @click="showPageLogin" title="Login">Login</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </template>
@@ -15,7 +15,7 @@
 const props = defineProps({
   title: {
     type: String,
-    default: "Nuxt"
+    default: "App"
   },
   links: {
     type: Array,
