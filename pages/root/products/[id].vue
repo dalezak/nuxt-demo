@@ -15,7 +15,7 @@
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
       <top-bar :breadcrumbs="breadcrumbs"></top-bar>
-      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end" v-if="isWeb">
         <ion-fab-button @click="shareProduct">
           <ion-icon :icon="ioniconsShareOutline"></ion-icon>
         </ion-fab-button>
@@ -39,7 +39,7 @@ definePageMeta({
   middleware: 'auth',
   title: 'Product'
 })
-const { isMobile } = usePlatform();
+const { isMobile, isWeb } = usePlatform();
 
 const { params } = useRoute();
 

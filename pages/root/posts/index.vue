@@ -12,7 +12,7 @@
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
       <top-bar :search="search" :breadcrumbs="breadcrumbs" @search="searchPosts(0)"></top-bar>
-      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end" v-if="isWeb">
         <ion-fab-button @click="showPageProductNew">
           <ion-icon :icon="ioniconsAdd"></ion-icon>
         </ion-fab-button>
@@ -29,7 +29,7 @@ definePageMeta({
   middleware: 'auth'
 })
 
-const { isMobile } = usePlatform();
+const { isMobile, isWeb } = usePlatform();
 
 const breadcrumbs = [
   {
