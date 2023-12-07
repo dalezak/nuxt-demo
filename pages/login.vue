@@ -55,8 +55,7 @@
 
 <script setup>
 definePageMeta({
-  middleware: 'auth',
-  // layout: 'default'
+  middleware: 'auth'
 })
 
 let name = $ref("");

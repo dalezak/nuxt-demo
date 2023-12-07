@@ -18,7 +18,7 @@ definePageMeta({
   middleware: 'auth',
 })
 
-const { isMobile } = usePlatform();
+const { isMobile, isWeb } = usePlatform();
 
 const limit = 12;
 let offset = $ref(0);
@@ -28,12 +28,11 @@ let items = reactive([]);
 let loading = $ref(false);
 
 async function loadItems(_offset=0) {
-  showLoading();
   try {
     loading = true;
     offset = _offset;
     const { data: results } = await useFetch('/api/items', {
-      key: `items-${offset}-${limit}-${search}`,
+      key: `items-${limit}-${offset}-${search}`,
       params: {
         limit: limit, 
         offset: offset,
@@ -41,12 +40,12 @@ async function loadItems(_offset=0) {
       },
       initialCache: false
     });
-    console.log(`loadItems ${offset} to ${offset + limit}`, results.value);
+    console.log(`loadItems ${offset} to ${offset + limit}`, results.value.length);
     if (offset == 0) {
       items.splice(0);
     }
     items.push(...results.value);
-    count = items.length;
+    count = results.value.length;
   }
   catch (error) {
     console.error("loadItems", error);
@@ -54,7 +53,6 @@ async function loadItems(_offset=0) {
   }
   finally {
     loading = false;
-    hideLoading();
   }
 }
 

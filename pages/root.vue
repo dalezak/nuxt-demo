@@ -15,6 +15,7 @@ definePageMeta({
   middleware: 'auth'
 })
 const { name, links } = useAppConfig();
+const { isMobile, isWeb } = usePlatform();
 const { path } = useRoute();
 const currentUser = useCurrentUser();
 

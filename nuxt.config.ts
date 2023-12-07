@@ -26,10 +26,10 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
+      url: process.env.APP_URL,
       app: {
         name: packageJson.name,
-        version: packageJson.version,
-        description: packageJson.description
+        version: packageJson.version
       }
     },
   },

@@ -5,7 +5,9 @@
 </template>
 
 <script setup>
-settingsTheme("default", false)
+const { theme, dark } = useAppConfig();
+settingsTheme(theme, dark);
+
 if (process.client) {
   // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
