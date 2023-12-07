@@ -6,6 +6,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
+      <ion-refresher slot="fixed" @ionRefresh="loadItems(0, $event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
       <grid-cards :loading="loading" :limit="limit" :count="count" :search="search" label="items" @more="loadItems(offset+limit)">
         <item-card :item="item" :key="item.id" v-for="item of items"></item-card>
       </grid-cards> 
@@ -27,7 +30,7 @@ let search = $ref("");
 let items = reactive([]);
 let loading = $ref(false);
 
-async function loadItems(_offset=0) {
+async function loadItems(_offset=0, event = null) {
   try {
     loading = true;
     offset = _offset;
@@ -53,6 +56,9 @@ async function loadItems(_offset=0) {
   }
   finally {
     loading = false;
+    if (event && event.target) {
+      event.target.complete();
+    }
   }
 }
 

@@ -11,6 +11,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
+      <ion-refresher slot="fixed" @ionRefresh="searchProducts(0, $event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
       <top-bar :search="search" :breadcrumbs="breadcrumbs" @search="searchProducts(0)"></top-bar>
       <ion-fab slot="fixed" vertical="bottom" horizontal="end" v-if="isWeb">
         <ion-fab-button @click="showPageProductNew">
@@ -59,7 +62,7 @@ function searchChanged(_search) {
   searchProducts();
 }
 
-async function searchProducts(_offset = 0) {
+async function searchProducts(_offset = 0, event = null) {
   console.log("searchProducts");
   try {
     loading = true;
@@ -76,6 +79,9 @@ async function searchProducts(_offset = 0) {
   }
   finally {
     loading = false;
+    if (event && event.target) {
+      event.target.complete();
+    }
   }
 }
 
