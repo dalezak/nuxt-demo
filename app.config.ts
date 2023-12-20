@@ -1,8 +1,8 @@
 export default defineAppConfig({
-  name: "Nuxt",
-  description: "Nuxt hybrid blueprint",
+  name: "Demo",
+  description: "Nuxt Layer Demo",
   theme: "default",
-  dark: false,
+  dark: true,
   links: [
     {
       name: "home",

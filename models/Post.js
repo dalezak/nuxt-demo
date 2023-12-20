@@ -1,4 +1,4 @@
-import SupaModel from './SupaModel';
+import SupaModel from '../nuxt-layer-supabase/models/SupaModel';
 
 export default class Post extends SupaModel {
 

@@ -15,13 +15,13 @@ npm install
 Local environment on `http://localhost:3000`
 
 ```bash
-npm run dev -- -o --dotenv .env.local
+npm run local -- --open
 ```
 
 Production environment
 
 ```bash
-npm run dev -- -o --dotenv .env.prod
+npm run prod -- --open
 ```
 
 ## Production
