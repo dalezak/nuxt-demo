@@ -7,8 +7,8 @@ export default defineNuxtConfig({
     enabled: true 
   },
   extends: [
-    'github:dalezak/nuxt-layer-ionic',
-    'github:dalezak/nuxt-layer-supabase'
+    'github:dalezak/nuxt-ionic',
+    // 'github:dalezak/nuxt-supabase'
   ],
   modules: [
     '@vue-macros/nuxt'
@@ -25,8 +25,8 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: [
       'stores/**',
-      '../nuxt-layer-supabase/stores/**',
-      '../nuxt-layer-ionic/stores/**'
+      '../nuxt-supabase/stores/**',
+      '../nuxt-ionic/stores/**'
     ]
   }
 })

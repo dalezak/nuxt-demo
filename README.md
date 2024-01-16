@@ -10,6 +10,11 @@ Install packages
 npm install
 ```
 
+Update packages
+```bash
+npm update
+```
+
 ## Development
 
 Local environment on `http://localhost:3000`

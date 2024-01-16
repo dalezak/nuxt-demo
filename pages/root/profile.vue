@@ -10,7 +10,7 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content>
+    <ion-content :fullscreen="true" class="ion-padding">
       <ion-button router-link="/about" router-direction="forward">About Link</ion-button>
       <ion-button @click="showPageAbout()">Show About</ion-button>
     </ion-content>

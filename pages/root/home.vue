@@ -5,7 +5,7 @@
         <ion-title>Home</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content>
+    <ion-content :fullscreen="true" class="ion-padding">
       <ion-refresher slot="fixed" @ionRefresh="loadItems(0, $event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
