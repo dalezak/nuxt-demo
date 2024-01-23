@@ -7,8 +7,7 @@ export default defineNuxtConfig({
     enabled: true 
   },
   extends: [
-    'github:dalezak/nuxt-ionic',
-    // 'github:dalezak/nuxt-supabase'
+    'github:dalezak/nuxt-ionic'
   ],
   modules: [
     '@vue-macros/nuxt'

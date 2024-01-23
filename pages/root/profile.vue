@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header>
+    <ion-header v-if="isMobile">
       <ion-toolbar>
         <ion-title>Profile</ion-title>
         <ion-buttons slot="primary">
@@ -21,4 +21,5 @@
 definePageMeta({
   middleware: 'auth'
 })
+const { isMobile, isWeb } = usePlatform();
 </script>
