@@ -1,8 +1,6 @@
 # Nuxt Hybrid App
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## NPM
+## Packages
 
 Install packages
 
@@ -42,7 +40,7 @@ npm run build
 Clean cache
 
 ```bash
-npx nuxi cleanup
+npm run clean
 ```
 
 ## Supabase

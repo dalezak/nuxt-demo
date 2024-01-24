@@ -36,8 +36,7 @@
 
 <script setup>
 definePageMeta({
-  middleware: 'auth',
-  title: 'Product'
+  middleware: 'auth'
 })
 const { isMobile, isWeb } = usePlatform();
 

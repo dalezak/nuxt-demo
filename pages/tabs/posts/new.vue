@@ -32,8 +32,7 @@
 
 <script setup>
 definePageMeta({
-  middleware: 'auth',
-  title: 'New Post'
+  middleware: 'auth'
 })
 
 const user = useCurrentUser();

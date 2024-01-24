@@ -9,35 +9,35 @@ export default defineAppConfig({
       label: "Home",
       path: "/home",
       icon: "home",
-      auth: false
+      public: true
     },
     {
       name: "login",
       label: "Login",
       path: "/login",
       icon: "key",
-      auth: false
+      public: true
     },
     {
       name: "products",
       label: "Products",
       path: "/products",
       icon: "shirtOutline",
-      auth: true
+      public: false
     },
     {
       name: "posts",
       label: "Posts",
       path: "/posts",
       icon: "chatboxOutline",
-      auth: true
+      public: false
     },
     {
       name: "profile",
       label: "Profile",
       path: "/profile",
       icon: "person",
-      auth: true
+      public: false
     }
   ]
 })

@@ -6,6 +6,7 @@
   "scripts": {
     "update": "npm-check-updates -u",
     "build": "nuxt build",
+    "clean": "npx nuxi cleanup",
     "dev": "nuxt dev",
     "local": "nuxt dev --dotenv .env.local",
     "prod": "nuxt dev --dotenv .env.prod",

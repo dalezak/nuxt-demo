@@ -32,8 +32,7 @@
 
 <script setup>
 definePageMeta({
-  middleware: 'auth',
-  title: 'New Product'
+  middleware: 'auth'
 })
 
 let title = $ref("");
