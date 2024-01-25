@@ -8,6 +8,12 @@ Install packages
 npm install
 ```
 
+Reinstall packages
+
+```bash
+npm run reinstall
+```
+
 Update packages
 ```bash
 npm update
