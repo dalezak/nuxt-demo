@@ -63,7 +63,7 @@ function searchChanged(_search) {
 }
 
 async function searchProducts(_offset = 0, event = null) {
-  console.log("searchProducts");
+  consoleLog("searchProducts");
   try {
     loading = true;
     offset = _offset;

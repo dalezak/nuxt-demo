@@ -75,7 +75,7 @@ async function addProduct() {
       }
     }
     catch (error) {
-      console.error("addProduct", error);
+      consoleError("addProduct", error);
       showAlert("Problem Saving Product", error);
     }
     finally {

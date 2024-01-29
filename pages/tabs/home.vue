@@ -21,6 +21,10 @@ definePageMeta({
   middleware: 'auth'
 })
 
+onMounted(() => {
+  consoleLog("home", "mounted", "ionic");
+})
+
 const { isMobile, isWeb } = usePlatform();
 
 const limit = 12;
@@ -43,7 +47,7 @@ async function loadItems(_offset=0, event = null) {
       },
       initialCache: false
     });
-    console.log(`loadItems ${offset} to ${offset + limit}`, results.value.length);
+    consoleLog(`loadItems ${offset} to ${offset + limit}`, results.value.length);
     if (offset == 0) {
       items.splice(0);
     }
@@ -51,7 +55,7 @@ async function loadItems(_offset=0, event = null) {
     count = results.value.length;
   }
   catch (error) {
-    console.error("loadItems", error);
+    consoleError("loadItems", error);
     showWarning("Problem Loading Items", error);
   }
   finally {

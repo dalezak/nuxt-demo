@@ -78,7 +78,7 @@ async function addPost() {
       }
     }
     catch (error) {
-      console.error("addPost", error);
+      consoleError("addPost", error);
       showAlert("Problem Saving Post", error);
     }
     finally {

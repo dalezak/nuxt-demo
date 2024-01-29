@@ -45,7 +45,7 @@ export const usePostStore = defineStore("posts", {
     },
     async loadPost({id}) {
       try {
-        console.log("Store.loadPost", id);
+        consoleLog("Store.loadPost", id);
         let post = await Post.load(id);
         if (post) {
           await post.store();

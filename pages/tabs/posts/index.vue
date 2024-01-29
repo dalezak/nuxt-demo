@@ -83,15 +83,15 @@ async function searchPosts(_offset = 0, event = null) {
 }
 
 async function showPostForm() {
-  console.log("showPostForm");
+  consoleLog("showPostForm");
 }
 
 function showPostDetails(id) {
-  console.log("showPostDetails", id);
+  consoleLog("showPostDetails", id);
 }
 
 async function sharePost(post) {
-  console.log("sharePost", post);
+  consoleLog("sharePost", post);
 }
 
 searchChanged();
