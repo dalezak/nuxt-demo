@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "reinstall": "rm -rf ./node_modules package-lock.json && npm install",
+    "reinstall": "rm -rf ./node_modules package-lock.json && npm install && npx nuxi cleanup",
     "update": "npm-check-updates -u",
     "build": "nuxt build",
     "clean": "npx nuxi cleanup",
