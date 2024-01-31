@@ -3,16 +3,25 @@
     <ion-header v-if="isMobile">
       <ion-toolbar>
         <ion-title>Profile</ion-title>
-        <ion-buttons slot="primary">
-          <ion-button @click="showPageLogout" title="Logout">
-            <ion-icon slot="icon-only" :icon="ioniconsLogOutOutline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
-      <ion-button router-link="/about" router-direction="forward">About Link</ion-button>
-      <ion-button @click="showPageAbout()">Show About</ion-button>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Profile</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list v-if="user">
+            <ion-item>
+              <ion-input v-model="user.name" label="Name" readonly></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input v-model="user.email" label="Email" readonly></ion-input>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+      <ion-button class="ion-margin" expand="block" fill="outline" @click="showPageLogout">Logout</ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -22,4 +31,7 @@ definePageMeta({
   middleware: 'auth'
 })
 const { isMobile, isWeb } = usePlatform();
+
+const user = await useCurrentUser();
+
 </script>
