@@ -30,8 +30,9 @@
 definePageMeta({
   middleware: 'auth'
 })
-const { isMobile, isWeb } = usePlatform();
 
-const user = await useCurrentUser();
+const { isMobile } = usePlatform();
+const { loadProfile } = useUserStore();
+const user = await loadProfile();
 
 </script>

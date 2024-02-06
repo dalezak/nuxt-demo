@@ -21,10 +21,6 @@ definePageMeta({
   middleware: 'auth'
 })
 
-onMounted(() => {
-  consoleLog("home", "mounted", "ionic");
-})
-
 const { isMobile, isWeb } = usePlatform();
 
 const limit = 12;
@@ -67,4 +63,9 @@ async function loadItems(_offset=0, event = null) {
 }
 
 loadItems();
+
+onMounted(() => {
+  consoleLog("home", "mounted", "ionic");
+})
+
 </script>

@@ -2,7 +2,7 @@
 import packageJson from './package.json';
 export default defineNuxtConfig({
   ssr: true,
-  debug: true,
+  debug: false,
   devtools: { 
     enabled: true 
   },
