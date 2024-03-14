@@ -13,31 +13,32 @@
     "prod": "nuxt dev --dotenv .env.prod",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "supabase": "copyfiles -f ../nuxt-supabase/supabase/migrations/*.sql supabase/migrations"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxtjs/device": "^3.1.1",
-    "@nuxtjs/ionic": "^0.13.0",
-    "@nuxtjs/supabase": "^1.1.5",
-    "@snaplet/copycat": "^2.0.0",
+    "@nuxtjs/ionic": "^0.13.1",
+    "@nuxtjs/supabase": "^1.1.7",
+    "@snaplet/copycat": "^5.0.0",
     "@vue-macros/nuxt": "^1.9.21",
-    "eslint-plugin-vue": "^9.20.1",
-    "nuxt": "^3.9.3",
+    "eslint-plugin-vue": "^9.23.0",
+    "nuxt": "^3.10.3",
     "nuxt-viewport": "^2.1.4",
-    "sass": "^1.70.0",
-    "supabase": "^1.136.3",
-    "vue": "^3.4.15",
-    "vue-router": "^4.2.5"
+    "sass": "^1.72.0",
+    "supabase": "^1.148.6",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0"
   },
   "dependencies": {
-    "@faker-js/faker": "^8.4.0",
+    "@faker-js/faker": "^8.4.1",
     "@pinia/nuxt": "^0.5.1",
     "cookie-universal-nuxt": "^2.2.2",
     "idb-keyval": "^6.2.1",
     "ionicons": "^7.2.2",
     "pinia": "^2.1.7",
-    "unstorage": "^1.10.1",
+    "unstorage": "^1.10.2",
     "vue-next-masonry": "^1.1.3"
   }
 }

@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-  consoleLog('submit.post.js', getRequestURL(event));
+  console.log('submit.post.js', getRequestURL(event));
   const url = getRouterParam(event, 'url');
   const query = getQuery(event);
   const params = getRouterParams(event);
