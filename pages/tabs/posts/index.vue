@@ -48,7 +48,7 @@ let count = $ref(0);
 let search = $ref("");
 let loading = $ref(false);
 
-const userStore = useUserStore();
+const userStore = useUsersStore();
 const postStore = usePostStore();
 
 const { getUser } = storeToRefs(userStore);

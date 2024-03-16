@@ -35,7 +35,7 @@ definePageMeta({
   middleware: 'auth'
 })
 
-const { loadProfile } = useUserStore();
+const { loadProfile } = useUsersStore();
 const user = await loadProfile();
 
 let title = $ref("");

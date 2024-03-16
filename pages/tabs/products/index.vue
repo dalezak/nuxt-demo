@@ -50,7 +50,7 @@ const breadcrumbs = [
   }
 ];
 
-const userStore = useUserStore();
+const userStore = useUsersStore();
 const productStore = useProductStore();
 
 const { getProfile } = storeToRefs(userStore);

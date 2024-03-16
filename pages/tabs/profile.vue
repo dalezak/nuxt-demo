@@ -32,7 +32,7 @@ definePageMeta({
 })
 
 const { isMobile } = usePlatform();
-const { loadProfile } = useUserStore();
+const { loadProfile } = useUsersStore();
 const user = await loadProfile();
 
 </script>
