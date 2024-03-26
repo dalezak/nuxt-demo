@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import Product from "../models/Product";
 import Products from "../models/Products";
 
-export const useProductStore = defineStore("products", {
+export const useProductsStore = defineStore("products", {
   state: () => ({
     product: null,
     products: null

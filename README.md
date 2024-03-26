@@ -8,15 +8,16 @@ Install packages
 npm install
 ```
 
+Update packages
+
+```bash
+npm run update
+```
+
 Reinstall packages
 
 ```bash
 npm run reinstall
-```
-
-Update packages
-```bash
-npm update
 ```
 
 ## Development

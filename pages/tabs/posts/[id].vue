@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true" v-if="isMobile">
+    <ion-header :translucent="true" v-if="isApp">
       <ion-toolbar>
         <ion-buttons slot="start">
           <ion-back-button default-href="/posts"></ion-back-button>
@@ -14,12 +14,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
-      <top-bar :breadcrumbs="breadcrumbs"></top-bar>
-      <ion-fab slot="fixed" vertical="bottom" horizontal="end" v-if="isWeb">
-        <ion-fab-button @click="sharePost">
-          <ion-icon :icon="ioniconsShareOutline"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
+      <top-bar :breadcrumbs="state.breadcrumbs"></top-bar>
+      <fab-button icon="share" @click="sharePost" v-if="isWeb"></fab-button>
       <ion-card class="ion-margin" v-if="post">
         <ion-card-header>
           <ion-card-title v-if="post.title">{{post.title}}</ion-card-title>
@@ -35,41 +31,46 @@ definePageMeta({
   middleware: 'auth'
 })
 
-const { isMobile, isWeb } = usePlatform();
+const { isApp, isWeb } = useAppScreen();
 
-const { params } = useRoute();
+const { params } = useAppRoute();
 
-const breadcrumbs = [
-  {
-    name: "posts",
-    label: "Posts",
-    path: "/posts"
-  },
-  {
-    name: "post",
-    label: "Post",
-    path: `/posts/${params.id}`
-  }
-];
+const state = reactive({
+  breadcrumbs: [
+    {
+      name: "posts",
+      label: "Posts",
+      path: "/posts"
+    },
+    {
+      name: "post",
+      label: "Post",
+      path: `/posts/${params.id}`
+    }
+  ]
+});
 
-const postStore = usePostStore();
-const { post } = storeToRefs(postStore);
-const { loadPost } = postStore;
+const postsStore = usePostsStore();
+const { loadPost } = postsStore;
+const { post } = storeToRefs(postsStore);
 
-async function sharePost(event) {
-  showPopoverShare(event, {
-    title: post.title,
-    description: post.body
-  })
+async function sharePost() {
+  shareSocial(post.title, post.body);
 }
 
-try {
+async function loadData() {
   await loadPost({ 
     id: params.id
   });
 }
-catch (error) {
-  showWarning("Problem Loading Post", error.message);
+
+if (isApp.value) {
+  onMounted(async () => {
+    await loadData();
+  });
+}
+else {
+  await loadData();
 }
 </script>
 

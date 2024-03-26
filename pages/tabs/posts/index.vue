@@ -1,10 +1,10 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true" v-if="isMobile">
+    <ion-header :translucent="true" v-if="isApp">
       <ion-toolbar>
         <ion-title>Posts</ion-title>
         <ion-buttons slot="primary">
-          <ion-button color="primary" @click="showPagePostNew">
+          <ion-button color="primary" @click="showPostNew">
             <ion-icon slot="icon-only" :icon="ioniconsAdd"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -14,14 +14,15 @@
       <ion-refresher slot="fixed" @ionRefresh="searchPosts(0, $event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
-      <top-bar :search="search" :breadcrumbs="breadcrumbs" @search="searchPosts(0)"></top-bar>
-      <ion-fab slot="fixed" vertical="bottom" horizontal="end" v-if="isWeb">
-        <ion-fab-button @click="showPageProductNew">
-          <ion-icon :icon="ioniconsAdd"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-      <grid-cards :loading="loading" :limit="limit" :count="count" :search="search" label="posts" @more="searchPosts(offset+limit)">
-        <post-card :user="getUser" :post="post" @share="sharePost(post)" @click="showPagePost(post.id)" :key="post.id" v-for="post of getPosts"></post-card>
+      <top-bar :search="state.search" :breadcrumbs="state.breadcrumbs" @search="searchChanged"></top-bar>
+      <fab-button icon="add" @click="showPostNew" v-if="isWeb"></fab-button>
+      <grid-cards label="posts"
+        :loading="state.loading" :limit="state.limit" 
+        :count="state.count" :search="state.search" 
+        @more="searchPosts(offset+limit)">
+        <post-card :key="post.id" v-for="post of getPosts"
+          :user="getUser" :post="post" 
+          @share="sharePost(post)" @click="showPostDetails(post.id)"></post-card>
       </grid-cards>
     </ion-content>
   </ion-page>
@@ -32,69 +33,74 @@ definePageMeta({
   middleware: 'auth'
 })
 
-const { isMobile, isWeb } = usePlatform();
+const { isApp, isWeb } = useAppScreen();
 
-const breadcrumbs = [
-  {
-    name: "posts",
-    label: "Posts",
-    path: "/posts"
-  }
-];
-
-const limit = 12;
-let offset = $ref(0);
-let count = $ref(0);
-let search = $ref("");
-let loading = $ref(false);
+const state = reactive({
+  limit: 12,
+  offset: 0,
+  count: 0,
+  search: "",
+  loading: false,
+  breadcrumbs: [
+    {
+      name: "posts",
+      label: "Posts",
+      path: "/posts"
+    }
+  ]
+});
 
 const userStore = useUsersStore();
-const postStore = usePostStore();
-
 const { getUser } = storeToRefs(userStore);
-const { getPosts } = storeToRefs(postStore);
-const { loadPosts } = postStore;
 
-function searchChanged(_search) {
-  search = _search;
+const postsStore = usePostsStore();
+const { loadPosts } = postsStore;
+const { getPosts } = storeToRefs(postsStore);
+
+function searchChanged(search = "") {
+  state.search = search;
   searchPosts();
 }
 
-async function searchPosts(_offset = 0, event = null) {
+async function searchPosts(offset = 0, event = null) {
   try {
-    loading = true;
-    offset = _offset;
+    state.loading = true;
+    state.offset = offset;
     let posts = await loadPosts({
-      limit: limit, 
-      offset: offset, 
-      search: search
+      limit: state.limit, 
+      offset: state.offset, 
+      search: state.search
     });
-    count = posts ? posts.length : 0;
+    state.count = posts ? posts.length : 0;
   }
   catch (error) {
-    showWarning("Problem Loading Posts", error.message);
+    consoleError("searchPosts", error);
+    showError("Problem Loading Posts", error.message);
   }
   finally {
-    loading = false;
+    state.loading = false;
     if (event && event.target) {
       event.target.complete();
     }
   }
 }
 
-async function showPostForm() {
-  consoleLog("showPostForm");
-}
-
-function showPostDetails(id) {
-  consoleLog("showPostDetails", id);
-}
-
 async function sharePost(post) {
-  consoleLog("sharePost", post);
+  shareSocial(post.title, post.body);
 }
 
-searchChanged();
+async function loadData() {
+  await searchPosts();
+}
+
+if (isApp.value) {
+  onMounted(async () => {
+    await loadData();
+  });
+}
+else {
+  await loadData();
+}
 </script>
 
 <style scoped lang="scss">

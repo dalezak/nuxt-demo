@@ -8,7 +8,6 @@ create table "public"."posts" (
     "updated_at" timestamp without time zone default now()
 );
 
-
 alter table "public"."posts" enable row level security;
 
 alter table "public"."users" alter column "updated_at" set data type timestamp with time zone using "updated_at"::timestamp with time zone;
@@ -32,7 +31,6 @@ for delete
 to authenticated
 using ((auth.uid() = user_id));
 
-
 create policy "Enable insert for authenticated users only"
 on "public"."posts"
 as permissive
@@ -40,14 +38,12 @@ for insert
 to authenticated
 with check (true);
 
-
 create policy "Enable read access for all users"
 on "public"."posts"
 as permissive
 for select
 to public
 using (true);
-
 
 create policy "Enable update for users based on user_id"
 on "public"."posts"

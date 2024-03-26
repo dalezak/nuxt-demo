@@ -1,11 +1,10 @@
 create table "public"."users" (
-    "id" uuid not null,
+    "id" uuid not null default uuid_generate_v4(),
     "email" character varying not null,
     "name" character varying not null,
     "created_at" timestamp without time zone default now(),
     "updated_at" timestamp without time zone default now()
 );
-
 
 alter table "public"."users" enable row level security;
 
@@ -28,7 +27,6 @@ for delete
 to authenticated
 using ((auth.uid() = id));
 
-
 create policy "Enable insert for authenticated users only"
 on "public"."users"
 as permissive
@@ -36,14 +34,12 @@ for insert
 to authenticated
 with check (true);
 
-
 create policy "Enable read access for all users"
 on "public"."users"
 as permissive
 for select
 to authenticated
 using (true);
-
 
 create policy "Enable update for users based on user_id"
 on "public"."users"

@@ -9,9 +9,7 @@ export default defineNuxtConfig({
   extends: [
     'github:dalezak/nuxt-ionic'
   ],
-  modules: [
-    '@vue-macros/nuxt'
-  ],
+  modules: [],
   runtimeConfig: {
     public: {
       url: process.env.APP_URL,

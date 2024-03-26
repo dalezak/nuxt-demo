@@ -13,10 +13,10 @@
     <ion-content :fullscreen="true" class="ion-padding">
       <ion-list>
         <ion-item>
-          <ion-textarea label="Title" label-placement="floating" ref="titleInput" v-model="title" type="text" :auto-grow="true" required v-on:keyup.enter="onEnter"></ion-textarea>
+          <ion-textarea type="text" label="Title" label-placement="floating" ref="state.titleInput" v-model="state.title" :auto-grow="true" required v-on:keyup.enter="onEnter"></ion-textarea>
         </ion-item>
         <ion-item>
-          <ion-textarea label="Body" label-placement="floating" ref="bodyInput" v-model="body" type="text" :auto-grow="true" required v-on:keyup.enter="onEnter"></ion-textarea>
+          <ion-textarea type="text" label="Body" label-placement="floating" ref="state.bodyInput" v-model="state.body" :auto-grow="true" required v-on:keyup.enter="onEnter"></ion-textarea>
         </ion-item>
       </ion-list>
     </ion-content>
@@ -35,24 +35,28 @@ definePageMeta({
   middleware: 'auth'
 })
 
-const { loadProfile } = useUsersStore();
-const user = await loadProfile();
+const { isApp, isWeb } = useAppScreen();
 
-let title = $ref("");
-let titleInput = $ref(null);
+const state = reactive({
+  title: "",
+  titleInput: null,
+  body: "",
+  bodyInput: null
+});
 
-let body = $ref("");
-let bodyInput = $ref(null);
+const usersStore = useUsersStore();
+const { loadProfile } = usersStore;
+const { profile } = storeToRefs(usersStore);
 
-const postStore = usePostStore();
-const { savePost } = postStore;
+const postsStore = usePostsStore();
+const { savePost } = postsStore;
 
 function hasTitle() {
-  return hasInput(titleInput, title, "Please enter a title");
+  return hasInput(state.titleInput, state.title, "Please enter a title");
 }
 
 function hasBody() {
-  return hasInput(bodyInput, body, "Please enter a body");
+  return hasInput(state.bodyInput, state.body, "Please enter a body");
 }
 
 function onEnter() {
@@ -66,9 +70,9 @@ async function addPost() {
     try {
       showLoading("Saving post...");
       let post = await savePost({
-        title: title, 
-        body: body,
-        user_id: user.id
+        title: state.title, 
+        body: state.body,
+        user_id: profile.id
       });
       if (post) {
         showToast("Post has been saved");
@@ -79,13 +83,25 @@ async function addPost() {
       }
     }
     catch (error) {
-      consoleError("addPost", error);
-      showAlert("Problem Saving Post", error);
+      showError("Problem Saving Post", error);
     }
     finally {
       hideLoading();
     }
   }
+}
+
+const loadData = async () => {
+  await loadProfile();
+}
+
+if (isApp.value) {
+  onMounted(async () => {
+    await loadData();
+  });
+}
+else {
+  await loadData();
 }
 </script>
 

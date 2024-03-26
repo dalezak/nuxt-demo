@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header v-if="isMobile">
+    <ion-header v-if="isApp">
       <ion-toolbar>
         <ion-title>Home</ion-title>
       </ion-toolbar>
@@ -9,8 +9,11 @@
       <ion-refresher slot="fixed" @ionRefresh="loadItems(0, $event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
-      <grid-cards :loading="loading" :limit="limit" :count="count" :search="search" label="items" @more="loadItems(offset+limit)">
-        <item-card :item="item" :key="item.id" v-for="item of items"></item-card>
+      <grid-cards label="items" 
+        :loading="state.loading" :limit="state.limit" 
+        :count="state.count" :search="state.search" 
+        @more="loadItems(state.offset+state.limit)">
+        <item-card :item="item" :key="item.id" v-for="item of state.items"></item-card>
       </grid-cards> 
     </ion-content>
   </ion-page>
@@ -21,51 +24,59 @@ definePageMeta({
   middleware: 'auth'
 })
 
-const { isMobile, isWeb } = usePlatform();
+const { isApp } = useAppScreen();
 
-const limit = 12;
-let offset = $ref(0);
-let count = $ref(0);
-let search = $ref("");
-let items = reactive([]);
-let loading = $ref(false);
+const state = reactive({
+  limit: 12,
+  offset: 0,
+  count: 0,
+  search: "",
+  items: [],
+  loading: false
+});
 
-async function loadItems(_offset=0, event = null) {
+async function loadItems(offset = 0, event = null) {
   try {
-    loading = true;
-    offset = _offset;
-    const { data: results } = await useFetch('/api/items', {
-      key: `items-${limit}-${offset}-${search}`,
+    state.loading = true;
+    state.offset = offset;
+    const { data: items } = await useFetch('/api/items', {
+      key: `items-${state.limit}-${state.offset}-${state.search}`,
       params: {
-        limit: limit, 
-        offset: offset,
-        search: search
+        limit: state.limit, 
+        offset: state.offset,
+        search: state.search
       },
       initialCache: false
     });
-    consoleLog(`loadItems ${offset} to ${offset + limit}`, results.value.length);
-    if (offset == 0) {
-      items.splice(0);
+    consoleLog(`loadItems ${state.offset} to ${state.offset + state.limit}`, items.value.length);
+    if (state.offset == 0) {
+      state.items.splice(0);
     }
-    items.push(...results.value);
-    count = results.value.length;
+    state.items.push(...items.value);
+    state.count = items.value.length;
   }
   catch (error) {
     consoleError("loadItems", error);
-    showWarning("Problem Loading Items", error);
+    showError("Problem Loading Items", error);
   }
   finally {
-    loading = false;
+    state.loading = false;
     if (event && event.target) {
       event.target.complete();
     }
   }
 }
 
-loadItems();
+const loadData = async () => {
+  await loadItems();
+}
 
-onMounted(() => {
-  consoleLog("home", "mounted", "ionic");
-})
-
+if (isApp.value) {
+  onMounted(async () => {
+    await loadData();
+  });
+}
+else {
+  await loadData();
+}
 </script>

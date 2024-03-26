@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header v-if="isMobile">
+    <ion-header v-if="isApp">
       <ion-toolbar>
         <ion-title>Profile</ion-title>
       </ion-toolbar>
@@ -11,17 +11,17 @@
           <ion-card-title>Profile</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <ion-list v-if="user">
+          <ion-list v-if="profile">
             <ion-item>
-              <ion-input v-model="user.name" label="Name" readonly></ion-input>
+              <ion-input v-model="profile.name" label="Name" readonly></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input v-model="user.email" label="Email" readonly></ion-input>
+              <ion-input v-model="profile.email" label="Email" readonly></ion-input>
             </ion-item>
           </ion-list>
         </ion-card-content>
       </ion-card>
-      <ion-button class="ion-margin" expand="block" fill="outline" @click="showPageLogout">Logout</ion-button>
+      <ion-button class="ion-margin" expand="block" fill="outline" @click="showUserLogout">Logout</ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -31,8 +31,19 @@ definePageMeta({
   middleware: 'auth'
 })
 
-const { isMobile } = usePlatform();
-const { loadProfile } = useUsersStore();
-const user = await loadProfile();
+const { isApp } = useAppScreen();
+const { profile, loadProfile } = useUsersStore();
 
+const loadData = async () => {
+  await loadProfile();
+}
+
+if (isApp.value) {
+  onMounted(async () => {
+    await loadData();
+  });
+}
+else {
+  await loadData();
+}
 </script>

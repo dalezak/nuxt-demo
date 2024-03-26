@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true" v-if="isMobile">
+    <ion-header :translucent="true" v-if="isApp">
       <ion-toolbar>
         <ion-buttons slot="start">
           <ion-back-button default-href="/products"></ion-back-button>
@@ -14,12 +14,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
-      <top-bar :breadcrumbs="breadcrumbs"></top-bar>
-      <ion-fab slot="fixed" vertical="bottom" horizontal="end" v-if="isWeb">
-        <ion-fab-button @click="shareProduct">
-          <ion-icon :icon="ioniconsShareOutline"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
+      <top-bar :breadcrumbs="state.breadcrumbs"></top-bar>
+      <fab-button icon="share" @click="shareProduct" v-if="isWeb"></fab-button>
       <ion-card class="ion-margin" v-if="product">
         <ion-card-header>
           <ion-card-title>{{product.title}}</ion-card-title>
@@ -38,42 +34,46 @@
 definePageMeta({
   middleware: 'auth'
 })
-const { isMobile, isWeb } = usePlatform();
+const { isApp, isWeb } = useAppScreen();
 
-const { params } = useRoute();
+const { params } = useAppRoute();
 
-const breadcrumbs = [
-  {
-    name: "products",
-    label: "Products",
-    path: "/products"
-  },
-  {
-    name: "product",
-    label: "Product",
-    path: `/products/${params.id}`
-  }
-];
+const state = reactive({
+  breadcrumbs: [
+    {
+      name: "products",
+      label: "Products",
+      path: "/products"
+    },
+    {
+      name: "product",
+      label: "Product",
+      path: `/products/${params.id}`
+    }
+  ]
+});
 
-const productStore = useProductStore();
-const { product } = storeToRefs(productStore);
-const { loadProduct } = productStore;
+const productsStore = useProductsStore();
+const { loadProduct } = productsStore;
+const { product } = storeToRefs(productsStore);
 
-async function shareProduct(event) {
-  showPopoverShare(event, {
-    title: product.title,
-    description: product.body,
-    image: product.image
-  })
+async function shareProduct() {
+  shareSocial(product.title, product.body);
 }
 
-try {
+async function loadData() {
   await loadProduct({ 
     id: params.id
   });
 }
-catch (error) {
-  showWarning("Problem Loading Product", error.message);
+
+if (isApp.value) {
+  onMounted(async () => {
+    await loadData();
+  });
+}
+else {
+  await loadData();
 }
 </script>
 

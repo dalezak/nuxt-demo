@@ -1,10 +1,10 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true" v-if="isMobile">
+    <ion-header :translucent="true" v-if="isApp">
       <ion-toolbar>
         <ion-title>Products</ion-title>
         <ion-buttons slot="primary">
-          <ion-button color="primary" @click="showPageProductNew">
+          <ion-button color="primary" @click="showProductNew">
             <ion-icon slot="icon-only" :icon="ioniconsAdd"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -14,14 +14,15 @@
       <ion-refresher slot="fixed" @ionRefresh="searchProducts(0, $event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
-      <top-bar :search="search" :breadcrumbs="breadcrumbs" @search="searchProducts(0)"></top-bar>
-      <ion-fab slot="fixed" vertical="bottom" horizontal="end" v-if="isWeb">
-        <ion-fab-button @click="showPageProductNew">
-          <ion-icon :icon="ioniconsAdd"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-      <grid-cards :loading="loading" :limit="limit" :count="count" :search="search" label="products" @more="searchProducts(offset+limit)">
-        <product-card :user="getProfile" :product="product" @share="shareProduct(product)" @click="showPageProduct(product.id)" :key="product.id" v-for="product of getProducts"></product-card>
+      <top-bar :search="state.search" :breadcrumbs="state.breadcrumbs" @search="searchChanged"></top-bar>
+      <fab-button icon="add" @click="showProductNew" v-if="isWeb"></fab-button>
+      <grid-cards label="products"
+        :loading="state.loading" :limit="state.limit" 
+        :count="state.count" :search="state.search" 
+        @more="searchProducts(state.offset+state.limit)">
+        <product-card :key="product.id" v-for="product of getProducts"
+          :user="getProfile" :product="product" 
+          @share="shareProduct(product)" @click="showProductDetails(product.id)"></product-card>
       </grid-cards>
     </ion-content>
   </ion-page>
@@ -32,63 +33,76 @@ definePageMeta({
   middleware: 'auth'
 })
 
-const { isMobile, isWeb } = usePlatform();
+const { isApp, isWeb } = useAppScreen();
 
-const route = useRoute();
+const state = reactive({
+  limit: 12,
+  offset: 0,
+  count: 0,
+  search: "",
+  loading: false,
+  breadcrumbs: [
+    {
+      name: "products",
+      label: "Products",
+      path: "/products"
+    }
+  ]
+});
 
-const limit = 12;
-let offset = $ref(0);
-let count = $ref(0);
-let search = $ref(route.query.search);
-let loading = $ref(false);
+const usersStore = useUsersStore();
+const { loadProfile } = usersStore;
+const { getProfile } = storeToRefs(usersStore);
 
-const breadcrumbs = [
-  {
-    name: "products",
-    label: "Products",
-    path: "/products"
-  }
-];
+const productsStore = useProductsStore();
+const { loadProducts } = productsStore;
+const { getProducts } = storeToRefs(productsStore);
 
-const userStore = useUsersStore();
-const productStore = useProductStore();
-
-const { getProfile } = storeToRefs(userStore);
-const { getProducts } = storeToRefs(productStore);
-const { loadProfile } = userStore;
-const { loadProducts } = productStore;
-
-const user = await loadProfile();
-
-function searchChanged(_search = "") {
-  search = _search;
+function searchChanged(search = "") {
+  state.search = search;
   searchProducts();
 }
 
-async function searchProducts(_offset = 0, event = null) {
-  consoleLog("searchProducts");
+async function searchProducts(offset = 0, event = null) {
   try {
-    loading = true;
-    offset = _offset;
+    state.loading = true;
+    state.offset = offset;
     let products = await loadProducts({
-      limit: limit, 
-      offset: offset, 
-      search: search
+      limit: state.limit, 
+      offset: state.offset, 
+      search: state.search
     });
-    count = products ? products.length : 0;
+    state.count = products ? products.length : 0;
   }
   catch (error) {
-    showWarning("Problem Loading Products", error.message);
+    consoleLog("searchProducts", error)
+    showError("Problem Loading Products", error.message);
   }
   finally {
-    loading = false;
+    state.loading = false;
     if (event && event.target) {
       event.target.complete();
     }
   }
 }
 
-searchChanged();
+async function shareProduct(product) {
+  shareSocial(product.title, product.body);
+}
+
+async function loadData() {
+  await loadProfile();
+  await searchProducts();
+}
+
+if (isApp.value) {
+  onMounted(async () => {
+    await loadData();
+  });
+}
+else {
+  await loadData();
+}
 </script>
 
 <style scoped lang="scss">
