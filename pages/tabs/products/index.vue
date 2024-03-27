@@ -21,7 +21,7 @@
         :count="state.count" :search="state.search" 
         @more="searchProducts(state.offset+state.limit)">
         <product-card :key="product.id" v-for="product of getProducts"
-          :user="getProfile" :product="product" 
+          :user="profile" :product="product" 
           @share="shareProduct(product)" @click="showProductDetails(product.id)"></product-card>
       </grid-cards>
     </ion-content>
@@ -52,7 +52,7 @@ const state = reactive({
 
 const usersStore = useUsersStore();
 const { loadProfile } = usersStore;
-const { getProfile } = storeToRefs(usersStore);
+const { profile } = storeToRefs(usersStore);
 
 const productsStore = useProductsStore();
 const { loadProducts } = productsStore;

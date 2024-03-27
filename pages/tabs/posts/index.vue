@@ -21,7 +21,7 @@
         :count="state.count" :search="state.search" 
         @more="searchPosts(offset+limit)">
         <post-card :key="post.id" v-for="post of getPosts"
-          :user="getUser" :post="post" 
+          :user="profile" :post="post" 
           @share="sharePost(post)" @click="showPostDetails(post.id)"></post-card>
       </grid-cards>
     </ion-content>
@@ -50,8 +50,9 @@ const state = reactive({
   ]
 });
 
-const userStore = useUsersStore();
-const { getUser } = storeToRefs(userStore);
+const usersStore = useUsersStore();
+const { loadProfile } = usersStore;
+const { profile } = storeToRefs(usersStore);
 
 const postsStore = usePostsStore();
 const { loadPosts } = postsStore;
@@ -90,6 +91,7 @@ async function sharePost(post) {
 }
 
 async function loadData() {
+  await loadProfile();
   await searchPosts();
 }
 
