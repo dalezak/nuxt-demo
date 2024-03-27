@@ -7,7 +7,7 @@
         </ion-buttons>
         <ion-title>Posts</ion-title>
         <ion-buttons slot="primary" v-if="post">
-          <ion-button @click="sharePost">
+          <ion-button @click="sharePost(post)">
             <ion-icon slot="icon-only" :icon="ioniconsShareOutline"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -53,10 +53,6 @@ const state = reactive({
 const postsStore = usePostsStore();
 const { loadPost } = postsStore;
 const { post } = storeToRefs(postsStore);
-
-async function sharePost() {
-  shareSocial(post.title, post.body);
-}
 
 async function loadData() {
   await loadPost({ 

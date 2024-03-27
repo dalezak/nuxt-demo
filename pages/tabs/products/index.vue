@@ -86,10 +86,6 @@ async function searchProducts(offset = 0, event = null) {
   }
 }
 
-async function shareProduct(product) {
-  shareSocial(product.title, product.body);
-}
-
 async function loadData() {
   await loadProfile();
   await searchProducts();

@@ -7,7 +7,7 @@
         </ion-buttons>
         <ion-title>Products</ion-title>
         <ion-buttons slot="primary">
-          <ion-button @click="shareProduct" v-if="product">
+          <ion-button @click="shareProduct(product)" v-if="product">
             <ion-icon slot="icon-only" :icon="ioniconsShareOutline"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -56,10 +56,6 @@ const state = reactive({
 const productsStore = useProductsStore();
 const { loadProduct } = productsStore;
 const { product } = storeToRefs(productsStore);
-
-async function shareProduct() {
-  shareSocial(product.title, product.body);
-}
 
 async function loadData() {
   await loadProduct({ 

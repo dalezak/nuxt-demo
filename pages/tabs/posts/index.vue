@@ -86,10 +86,6 @@ async function searchPosts(offset = 0, event = null) {
   }
 }
 
-async function sharePost(post) {
-  shareSocial(post.title, post.body);
-}
-
 async function loadData() {
   await loadProfile();
   await searchPosts();
