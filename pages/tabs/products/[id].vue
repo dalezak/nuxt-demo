@@ -15,7 +15,7 @@
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
       <top-bar :breadcrumbs="state.breadcrumbs"></top-bar>
-      <fab-button icon="share" @click="shareProduct" v-if="isWeb"></fab-button>
+      <fab-button icon="share" @click="shareProduct(product)" v-if="isWeb"></fab-button>
       <ion-card class="ion-margin" v-if="product">
         <ion-card-header>
           <ion-card-title>{{product.title}}</ion-card-title>
