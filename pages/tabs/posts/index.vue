@@ -14,9 +14,9 @@
       <ion-refresher slot="fixed" @ionRefresh="searchPosts(0, $event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
-      <top-bar :search="state.search" :breadcrumbs="state.breadcrumbs" @search="searchChanged"></top-bar>
+      <breadcrumb-bar :search="state.search" :breadcrumbs="state.breadcrumbs" @search="searchChanged"></breadcrumb-bar>
       <fab-button icon="add" @click="showPostNew" v-if="isWeb"></fab-button>
-      <grid-cards label="posts"
+      <grid-cards label="posts" sm="1" md="2" lg="3" xl="4"
         :loading="state.loading" :limit="state.limit" 
         :count="state.count" :search="state.search" 
         @more="searchPosts(offset+limit)">

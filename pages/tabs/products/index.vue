@@ -14,9 +14,9 @@
       <ion-refresher slot="fixed" @ionRefresh="searchProducts(0, $event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
-      <top-bar :search="state.search" :breadcrumbs="state.breadcrumbs" @search="searchChanged"></top-bar>
+      <breadcrumb-bar :search="state.search" :breadcrumbs="state.breadcrumbs" @search="searchChanged"></breadcrumb-bar>
       <fab-button icon="add" @click="showProductNew" v-if="isWeb"></fab-button>
-      <grid-cards label="products"
+      <grid-cards label="products" sm="1" md="2" lg="3" xl="4"
         :loading="state.loading" :limit="state.limit" 
         :count="state.count" :search="state.search" 
         @more="searchProducts(state.offset+state.limit)">
