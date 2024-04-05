@@ -1,5 +1,5 @@
 export default function () {
   if (process.client) {
-    showPage("/home", false);
+    showPage("/home");
   }
 }
