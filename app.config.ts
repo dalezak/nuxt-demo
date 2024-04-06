@@ -3,46 +3,41 @@ export default defineAppConfig({
   description: "Nuxt Demo",
   theme: "default",
   dark: true,
-  pages: [
+  tabs: [
     {
       name: "home",
       label: "Home",
       path: "/home",
       icon: "home",
-      public: true,
-      tab: true
+      public: true
     },
     {
       name: "login",
       label: "Login",
       path: "/login",
       icon: "key",
-      public: true,
-      tab: true
+      public: true
     },
     {
       name: "products",
       label: "Products",
       path: "/products",
       icon: "shirtOutline",
-      public: false,
-      tab: true
+      public: false
     },
     {
       name: "posts",
       label: "Posts",
       path: "/posts",
       icon: "chatboxOutline",
-      public: false,
-      tab: true
+      public: false
     },
     {
       name: "profile",
       label: "Profile",
       path: "/profile",
       icon: "person",
-      public: false,
-      tab: true
+      public: false
     }
   ]
 })

@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     enabled: true 
   },
   extends: [
-    'github:dalezak/nuxt-ionic'
+    'github:dalezak/nuxt-ionic',
+    'github:dalezak/nuxt-supabase'
   ],
   modules: [],
   runtimeConfig: {

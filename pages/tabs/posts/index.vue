@@ -22,7 +22,8 @@
         @more="searchPosts(offset+limit)">
         <post-card :key="post.id" v-for="post of getPosts"
           :user="profile" :post="post" 
-          @share="sharePost(post)" @click="showPostDetails(post.id)"></post-card>
+          @share="sharePost(post, $event)" 
+          @click="showPostDetails(post.id)"></post-card>
       </grid-cards>
     </ion-content>
   </ion-page>

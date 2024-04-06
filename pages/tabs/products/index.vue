@@ -22,7 +22,8 @@
         @more="searchProducts(state.offset+state.limit)">
         <product-card :key="product.id" v-for="product of getProducts"
           :user="profile" :product="product" 
-          @share="shareProduct(product)" @click="showProductDetails(product.id)"></product-card>
+          @share="shareProduct(product, $event)" 
+          @click="showProductDetails(product.id)"></product-card>
       </grid-cards>
     </ion-content>
   </ion-page>

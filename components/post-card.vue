@@ -6,7 +6,9 @@
         <ion-card-subtitle v-if="post.body">{{ textTruncate( post.body, 100) }}</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
-        <share-button :title="post.title" :description="post.description" css="ion-float-right"></share-button>
+        <ion-button fill="clear" title="Share" class="ion-float-right" @click="onShare">
+          <ion-icon :icon="ioniconsShareSocialOutline"></ion-icon>
+        </ion-button>
       </ion-card-content>
     </ion-card>
   </transition>
@@ -18,6 +20,15 @@ const props = defineProps({
     type: Object
   }
 });
+
+const emits = defineEmits([
+  "share"
+]);
+
+function onShare(event) {
+  event.stopPropagation();
+  emits("share", props.post, event);
+}
 </script>
 
 <style scoped lang="scss">
