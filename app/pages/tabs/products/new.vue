@@ -45,7 +45,10 @@ const state = reactive({
   title: "",
   titleInput: null,
   description: "",
-  descriptionInput: null
+  descriptionInput: null,
+  category: "",
+  price: null,
+  image: ""
 });
 
 const productsStore = useProductsStore();
@@ -70,8 +73,11 @@ async function addProduct() {
     try {
       showLoading("Saving product...");
       let product = await saveProduct({
-        title: state.title, 
-        description: state.description
+        title: state.title,
+        description: state.description,
+        category: state.category,
+        price: state.price,
+        image: state.image
       });
       if (product) {
         showToast("Product has been saved");

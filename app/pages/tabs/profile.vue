@@ -38,12 +38,7 @@ const loadData = async () => {
   await loadProfile();
 }
 
-if (isApp.value) {
-  onMounted(async () => {
-    await loadData();
-  });
-}
-else {
+onMounted(async () => {
   await loadData();
-}
+});
 </script>

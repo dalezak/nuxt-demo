@@ -72,7 +72,7 @@ export const useProductsStore = defineStore("products", {
           this.products = [];
         }
         this.product = product;
-        this.products = [...this.products, ...[product]];
+        this.products = [...this.products, product];
         return Promise.resolve(product);
       }
       catch (error) {

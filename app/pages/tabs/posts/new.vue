@@ -72,7 +72,7 @@ async function addPost() {
       let post = await savePost({
         title: state.title, 
         body: state.body,
-        user_id: profile.id
+        user_id: profile.value?.id
       });
       if (post) {
         showToast("Post has been saved");

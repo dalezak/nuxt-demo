@@ -39,21 +39,22 @@ async function loadItems(offset = 0, event = null) {
   try {
     state.loading = true;
     state.offset = offset;
-    const { data: items } = await useFetch('/api/items', {
+    const { data: items, error } = await useFetch('/api/items', {
       key: `items-${state.limit}-${state.offset}-${state.search}`,
       params: {
-        limit: state.limit, 
+        limit: state.limit,
         offset: state.offset,
         search: state.search
       },
       initialCache: false
     });
-    consoleLog(`loadItems ${state.offset} to ${state.offset + state.limit}`, items.value.length);
-    if (state.offset == 0) {
+    if (error.value) throw error.value;
+    consoleLog(`loadItems ${state.offset} to ${state.offset + state.limit}`, items.value?.length);
+    if (state.offset === 0) {
       state.items.splice(0);
     }
-    state.items.push(...items.value);
-    state.count = items.value.length;
+    state.items.push(...(items.value ?? []));
+    state.count = items.value?.length ?? 0;
   }
   catch (error) {
     consoleError("loadItems", error);
@@ -71,12 +72,7 @@ const loadData = async () => {
   await loadItems();
 }
 
-if (isApp.value) {
-  onMounted(async () => {
-    await loadData();
-  });
-}
-else {
+onMounted(async () => {
   await loadData();
-}
+});
 </script>

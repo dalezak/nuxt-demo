@@ -36,21 +36,6 @@ definePageMeta({
 
 const { isApp, isWeb } = useAppScreen();
 
-const state = reactive({
-  limit: 12,
-  offset: 0,
-  count: 0,
-  search: "",
-  loading: false,
-  breadcrumbs: [
-    {
-      name: "products",
-      label: "Products",
-      path: "/products"
-    }
-  ]
-});
-
 const usersStore = useUsersStore();
 const { loadProfile } = usersStore;
 const { profile } = storeToRefs(usersStore);
@@ -59,47 +44,17 @@ const productsStore = useProductsStore();
 const { loadProducts } = productsStore;
 const { getProducts } = storeToRefs(productsStore);
 
-function searchChanged(search = "") {
-  state.search = search;
-  searchProducts();
-}
-
-async function searchProducts(offset = 0, event = null) {
-  try {
-    state.loading = true;
-    state.offset = offset;
-    let products = await loadProducts({
-      limit: state.limit, 
-      offset: state.offset, 
-      search: state.search
-    });
-    state.count = products ? products.length : 0;
-  }
-  catch (error) {
-    consoleLog("searchProducts", error)
-    showError("Problem Loading Products", error.message);
-  }
-  finally {
-    state.loading = false;
-    if (event && event.target) {
-      event.target.complete();
-    }
-  }
-}
+const { state, searchChanged, run: searchProducts } = useSearchPagination(loadProducts, "Problem Loading Products");
+state.breadcrumbs = [{ name: "products", label: "Products", path: "/products" }];
 
 async function loadData() {
   await loadProfile();
   await searchProducts();
 }
 
-if (isApp.value) {
-  onMounted(async () => {
-    await loadData();
-  });
-}
-else {
+onMounted(async () => {
   await loadData();
-}
+});
 </script>
 
 <style scoped lang="scss">

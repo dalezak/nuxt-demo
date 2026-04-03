@@ -72,7 +72,7 @@ export const usePostsStore = defineStore("posts", {
           this.posts = [];
         }
         this.post = post;
-        this.posts = [...this.posts, ...[post]];
+        this.posts = [...this.posts, post];
         return Promise.resolve(post);
       }
       catch (error) {

@@ -20,10 +20,10 @@
         <ion-card-header>
           <ion-card-title>{{product.title}}</ion-card-title>
         </ion-card-header>
-        <ion-card-content>{{product.description}}</ion-card-content>
+        <ion-card-content>{{product?.description}}</ion-card-content>
         <ion-card-content>
           <ion-chip v-if="product.price">{{ textMoney(product.price) }}</ion-chip>
-          <ion-chip v-if="product.rating">{{ textRating(product.rating.rate, 5) }}</ion-chip>
+          <ion-chip v-if="product.rating">{{ textRating(product.rating?.rate, 5) }}</ion-chip>
         </ion-card-content>
       </ion-card>
     </ion-content>

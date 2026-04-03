@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import packageJson from './package.json';
 export default defineNuxtConfig({
+  srcDir: 'app',
   ssr: true,
   debug: false,
   devtools: { 
@@ -22,7 +23,7 @@ export default defineNuxtConfig({
   },
   pinia: {
     storesDirs: [
-      'stores/**',
+      'app/stores/**',
       '../nuxt-supabase/stores/**',
       '../nuxt-ionic/stores/**'
     ]

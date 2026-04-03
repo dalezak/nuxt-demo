@@ -19,7 +19,7 @@
       <grid-cards label="posts" sm="1" md="2" lg="3" xl="4"
         :loading="state.loading" :limit="state.limit" 
         :count="state.count" :search="state.search" 
-        @more="searchPosts(offset+limit)">
+        @more="searchPosts(state.offset+state.limit)">
         <post-card :key="post.id" v-for="post of getPosts"
           :user="profile" :post="post" 
           @share="sharePost(post, $event)" 
@@ -36,21 +36,6 @@ definePageMeta({
 
 const { isApp, isWeb } = useAppScreen();
 
-const state = reactive({
-  limit: 12,
-  offset: 0,
-  count: 0,
-  search: "",
-  loading: false,
-  breadcrumbs: [
-    {
-      name: "posts",
-      label: "Posts",
-      path: "/posts"
-    }
-  ]
-});
-
 const usersStore = useUsersStore();
 const { loadProfile } = usersStore;
 const { profile } = storeToRefs(usersStore);
@@ -59,47 +44,17 @@ const postsStore = usePostsStore();
 const { loadPosts } = postsStore;
 const { getPosts } = storeToRefs(postsStore);
 
-function searchChanged(search = "") {
-  state.search = search;
-  searchPosts();
-}
-
-async function searchPosts(offset = 0, event = null) {
-  try {
-    state.loading = true;
-    state.offset = offset;
-    let posts = await loadPosts({
-      limit: state.limit, 
-      offset: state.offset, 
-      search: state.search
-    });
-    state.count = posts ? posts.length : 0;
-  }
-  catch (error) {
-    consoleError("searchPosts", error);
-    showError("Problem Loading Posts", error.message);
-  }
-  finally {
-    state.loading = false;
-    if (event && event.target) {
-      event.target.complete();
-    }
-  }
-}
+const { state, searchChanged, run: searchPosts } = useSearchPagination(loadPosts, "Problem Loading Posts");
+state.breadcrumbs = [{ name: "posts", label: "Posts", path: "/posts" }];
 
 async function loadData() {
   await loadProfile();
   await searchPosts();
 }
 
-if (isApp.value) {
-  onMounted(async () => {
-    await loadData();
-  });
-}
-else {
+onMounted(async () => {
   await loadData();
-}
+});
 </script>
 
 <style scoped lang="scss">
