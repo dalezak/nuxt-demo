@@ -21,3 +21,21 @@
 ## Code Quality
 
 - [x] Add composables for shared search/pagination logic to reduce duplication across pages
+
+## nuxt-supabase Improvements
+
+- [x] Add `createSupaStore(name, ModelClass, CollectionClass)` factory to eliminate boilerplate store duplication across consumer apps
+- [x] Declare `@pinia/nuxt` as a module in `nuxt-supabase/nuxt.config.ts` so consumers don't need to re-declare it
+- [x] Configure `pinia.storesDirs` and `vite.resolve.dedupe` inside the layer so consumers don't need to copy this boilerplate
+
+## nuxt-ionic Improvements
+
+- [x] Declare `@pinia/nuxt` as a module dependency in `nuxt-ionic/nuxt.config.ts` since it owns pages that use stores
+- [x] Move `profile.vue` into `nuxt-ionic` layer alongside `login.vue`, `logout.vue`, `reset.vue`
+
+## nuxt-supabase Storage Improvements
+
+- [x] Fix `search()` calling `sortByProperties()` without `this.` — sort silently fails
+- [x] Remove unnecessary `import.meta.client` guards inside `sortByProperty` and `sortByProperties` — wrong return type (`[]` instead of a comparator function), and callers already guard
+- [x] Extract shared item-matching logic from `count()` and `search()` into a private `_matches(item, search, haystack)` helper
+- [x] Replace per-method `import.meta.client` checks with a single `this.unstorage` null check since `unstorage` is only initialized on the client

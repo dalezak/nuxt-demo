@@ -54,8 +54,8 @@ const state = reactive({
 });
 
 const productsStore = useProductsStore();
-const { loadProduct } = productsStore;
-const { product } = storeToRefs(productsStore);
+const { loadItem: loadProduct } = productsStore;
+const { item: product } = storeToRefs(productsStore);
 
 async function loadData() {
   await loadProduct({ 

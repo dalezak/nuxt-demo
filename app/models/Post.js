@@ -14,7 +14,6 @@ export default class Post extends SupaModel {
   
   constructor(data = {}) {
     super(data);
-    Object.assign(this, data);
   }
 
   async store() {

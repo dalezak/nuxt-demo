@@ -1,10 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { fileURLToPath } from 'node:url';
-import { resolve, dirname } from 'node:path';
+import { dirname, join } from 'node:path';
 import packageJson from './package.json';
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const currentDir = dirname(fileURLToPath(import.meta.url));
 export default defineNuxtConfig({
-  srcDir: 'app',
+  srcDir: join(currentDir, 'app'),
   compatibilityDate: '2026-04-03',
   ssr: true,
   debug: false,
@@ -15,9 +15,11 @@ export default defineNuxtConfig({
     '../nuxt-ionic',
     '../nuxt-supabase'
   ],
-  modules: [],
+  modules: [
+    '@pinia/nuxt'
+  ],
   supabase: {
-    types: resolve(__dirname, '../nuxt-supabase/app/types/database.types.ts')
+    types: join(currentDir, '../nuxt-supabase/app/types/database.types.ts')
   },
   runtimeConfig: {
     public: {
@@ -28,11 +30,15 @@ export default defineNuxtConfig({
       }
     }
   },
+  vite: {
+    resolve: {
+      dedupe: ['pinia', 'vue', '@ionic/vue']
+    }
+  },
   pinia: {
     storesDirs: [
-      'app/stores/**',
-      '../nuxt-supabase/stores/**',
-      '../nuxt-ionic/stores/**'
+      join(currentDir, 'app/stores/**'),
+      join(currentDir, '../nuxt-ionic/app/stores/**')
     ]
   }
 })

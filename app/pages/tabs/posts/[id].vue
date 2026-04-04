@@ -51,8 +51,8 @@ const state = reactive({
 });
 
 const postsStore = usePostsStore();
-const { loadPost } = postsStore;
-const { post } = storeToRefs(postsStore);
+const { loadItem: loadPost } = postsStore;
+const { item: post } = storeToRefs(postsStore);
 
 async function loadData() {
   await loadPost({ 

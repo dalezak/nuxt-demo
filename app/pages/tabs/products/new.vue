@@ -52,7 +52,7 @@ const state = reactive({
 });
 
 const productsStore = useProductsStore();
-const { saveProduct } = productsStore;
+const { saveItem: saveProduct } = productsStore;
 
 function hasTitle() {
   return hasInput(state.titleInput, state.title, "Please enter a title");

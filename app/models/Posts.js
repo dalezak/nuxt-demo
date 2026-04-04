@@ -8,7 +8,7 @@ export default class Posts extends SupaModels {
   }
 
   static async clear() {
-    return SupaModels.clearModel("posts");
+    return SupaModels.clearModels("posts");
   }
 
   static async load(limit = 10, offset = 0, search = "") {
@@ -17,9 +17,9 @@ export default class Posts extends SupaModels {
       where.push(["title", "ilike", search.toLowerCase()]);
     }
     return SupaModels.loadModels(Posts, Post, "posts", {
-      sort: "created_at:desc", 
-      limit: limit, 
-      offset: offset, 
+      order: "created_at:desc",
+      limit: limit,
+      offset: offset,
       where: where
     });
   }

@@ -8,7 +8,7 @@ export default class Products extends RestModels {
   }
 
   static async clear() {
-    return RestModels.clearModel("products");
+    return RestModels.clearModels("products");
   }
 
   static async load(limit = 10, offset = 0, search = "", sort = "desc") {

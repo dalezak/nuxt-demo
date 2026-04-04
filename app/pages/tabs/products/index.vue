@@ -41,8 +41,8 @@ const { loadProfile } = usersStore;
 const { profile } = storeToRefs(usersStore);
 
 const productsStore = useProductsStore();
-const { loadProducts } = productsStore;
-const { getProducts } = storeToRefs(productsStore);
+const { loadItems: loadProducts } = productsStore;
+const { getItems: getProducts } = storeToRefs(productsStore);
 
 const { state, searchChanged, run: searchProducts } = useSearchPagination(loadProducts, "Problem Loading Products");
 state.breadcrumbs = [{ name: "products", label: "Products", path: "/products" }];

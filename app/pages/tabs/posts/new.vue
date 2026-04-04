@@ -49,7 +49,7 @@ const { loadProfile } = usersStore;
 const { profile } = storeToRefs(usersStore);
 
 const postsStore = usePostsStore();
-const { savePost } = postsStore;
+const { saveItem: savePost } = postsStore;
 
 function hasTitle() {
   return hasInput(state.titleInput, state.title, "Please enter a title");

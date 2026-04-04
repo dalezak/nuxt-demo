@@ -13,7 +13,6 @@ export default class Product extends RestModel {
   
   constructor(data = {}) {
     super(data);
-    Object.assign(this, data);
   }
 
   async store() {
