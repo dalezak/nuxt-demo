@@ -21,11 +21,11 @@ export default class Post extends SupaModel {
   }
 
   static async restore(id) {
-    return SupaModel.restoreModel(Post, `posts/${id}`);
+    return this.restoreModel(Post, `posts/${id}`);
   }
 
   static async load(id) {
-    return SupaModel.loadModel(Post, "posts", { id: id });
+    return this.loadModel(Post, "posts", { id: id });
   }
 
   async save() {

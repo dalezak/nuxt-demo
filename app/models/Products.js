@@ -8,16 +8,24 @@ export default class Products extends RestModels {
   }
 
   static async clear() {
-    return RestModels.clearModels("products");
+    return this.clearModels("products");
   }
 
-  static async load(limit = 10, offset = 0, search = "", sort = "desc") {
+  static async stored(search = "", _params = {}) {
+    return this.storedModels("products/", search);
+  }
+
+  static async restore(limit = 10, offset = 0, search = "", _params = {}) {
+    return this.restoreModels(Products, Product, "products/", search, offset, limit);
+  }
+
+  static async load(limit = 10, _offset = 0, _search = "", params = {}) {
     const url = `https://fakestoreapi.com/products`;
-    const params = {
+    const fetchParams = {
       limit: limit,
-      sort: sort
+      sort: params.sort ?? "desc"
     };
-    return RestModels.loadModels(Products, Product, url, params);
+    return this.loadModels(Products, Product, url, fetchParams);
   }
 
 }

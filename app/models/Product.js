@@ -20,12 +20,12 @@ export default class Product extends RestModel {
   }
 
   static async restore(id) {
-    return await RestModel.restoreModel(Product, `products/${id}`);
+    return await this.restoreModel(Product, `products/${id}`);
   }
 
   static async load(id, params = {}) {
     const url = `https://fakestoreapi.com/products/${id}`;
-    return await RestModel.loadModel(Product, url, params);
+    return await this.loadModel(Product, url, params);
   }
 
   async save() {
