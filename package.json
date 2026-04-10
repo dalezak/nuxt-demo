@@ -20,14 +20,14 @@
     "@nuxt/devtools": "latest",
     "@nuxtjs/device": "^4.0.0",
     "@nuxtjs/ionic": "^1.0.2",
-    "@nuxtjs/supabase": "^2.0.4",
+    "@nuxtjs/supabase": "^2.0.5",
     "@snaplet/copycat": "^6.0.0",
     "eslint-plugin-vue": "^10.8.0",
     "nuxt": "^4.4.2",
     "nuxt-viewport": "^2.4.0",
-    "sass": "^1.98.0",
-    "supabase": "^2.84.7",
-    "vue": "^3.5.31",
+    "sass": "^1.99.0",
+    "supabase": "^2.89.0",
+    "vue": "^3.5.32",
     "vue-router": "^5.0.4"
   },
   "dependencies": {
