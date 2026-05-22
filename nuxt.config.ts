@@ -4,6 +4,7 @@ import { dirname, join } from 'node:path';
 import packageJson from './package.json';
 const currentDir = dirname(fileURLToPath(import.meta.url));
 export default defineNuxtConfig({
+  $meta: { name: 'nuxt-demo' },
   srcDir: join(currentDir, 'app'),
   compatibilityDate: '2026-04-03',
   ssr: true,

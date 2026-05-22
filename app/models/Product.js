@@ -1,4 +1,4 @@
-import RestModel from '../../../nuxt-supabase/app/models/RestModel';
+import RestModel from '#layers/nuxt-supabase/app/models/RestModel';
 
 export default class Product extends RestModel {
 
